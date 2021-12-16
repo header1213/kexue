@@ -2,8 +2,11 @@ const objects = [{ name: "test_puzzle", pos: [30, 13.8, 6, 4.5] }];
 const puzzles = {
   test_puzzle: {
     name: "테스트 퍼즐",
-    desc: "대충 내용",
-    img: undefined,
+    desc: "곰 한 마리가 처음 위치에서 남쪽으로 1km 이동했습니다. <br /> \
+    또, 서쪽으로 1km 갔다가 북쪽으로 1km 움직였습니다. <br /> \
+    그런데 곰이 처음 위치로 돌아왔습니다. <br /> \
+    그렇다면 곰의 털 색은 무엇일까요? 진행요원에게 답을 말씀해 주세요.",
+    img: "https://smtmap.com/wp-content/uploads/2020/06/%EA%B3%B0-%EA%BF%88.jpg",
   },
 };
 

@@ -61,7 +61,7 @@ body {
   border-radius: 40px;
   display: flex;
   flex-direction: column;
-  row-gap: 50px;
+  row-gap: 20px;
   align-items: center;
   text-align: center;
 }
@@ -86,4 +86,8 @@ body {
 }
 .puzzle span {
   font-size: 2vw;
+}
+.puzzle img {
+  height: 12vw;
+  border-radius: 3vw;
 }
