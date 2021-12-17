@@ -84,6 +84,11 @@ const popups = {
     desc: "실험실에서 지켜야 할 안전수칙을 써 놓았습니다.",
     img: "./images/mainroom/left/board4.jpg",
   },
+  l_door2: {
+    name: "잠긴 문",
+    desc: "굳게 잠궈 놓았습니다. <br /> 알로호모라! 네, 굳게 잠궈 놓았네요.",
+    img: "./images/mainroom/left/door2.jpg",
+  },
   b_door_close: {
     name: "문",
     desc: "비밀번호는 무엇일까요?",
