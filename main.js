@@ -31,6 +31,12 @@ const objects = {
     { name: "b_cabinet2", pos: [22, 3, 29, 23] },
     { name: "b_cabinet3", pos: [52, 6, 29, 34] },
   ],
+  back_open: [
+    { name: "backroom", pos: [-30, -2, 12, 32] },
+    { name: "b_cabinet1", pos: [-8, 3, 29, 23] },
+    { name: "b_cabinet2", pos: [22, 3, 29, 23] },
+    { name: "b_cabinet3", pos: [52, 6, 29, 34] },
+  ],
   right: [
     { name: "r_sink1", pos: [-15, 12, 20, 8] },
     { name: "r_sink2", pos: [39, 12, 18, 8] },
@@ -90,9 +96,14 @@ const popups = {
     img: "./images/mainroom/left/door2.jpg",
   },
   b_door_close: {
-    name: "문",
+    name: "뒷문",
     desc: "비밀번호는 무엇일까요?",
     img: "./images/mainroom/back/backdoor_close.jpg",
+  },
+  b_door_open: {
+    name: "뒷문",
+    desc: "문이 열렸습니다.",
+    img: "./images/mainroom/back/backdoor_open.jpg",
   },
   b_cabinet1: {
     name: "실험실 사물함",
@@ -126,6 +137,9 @@ const popups = {
   },
 };
 
+// room, direction, screen, backdoor
+let pagenow = ["mainroom", "front", false, false];
+
 const make_object = (o) => `<div
   class="item"
   data-popup=${o.name}
@@ -137,35 +151,42 @@ const make_object = (o) => `<div
   > </div>
   `;
 
+const change_page = (page) => {
+  console.log(page);
+  let additional = "";
+  if (page[0] === "mainroom") {
+    if (page[2] && ["front", "left"].includes(page[1])) {
+      additional = "_screen";
+    } else if (page[3] && page[1] === "back") {
+      additional = "_open";
+    }
+  }
+  $(".item").remove();
+  $("#background").css("background-image", `url(./images/${page[0]}/${page[1]}/main${additional}.jpg)`);
+  objects[page[1] + additional].forEach((o) => {
+    $("#background").append(make_object(o));
+  });
+};
+
 const popup = (puzname) => {
+  if (puzname === "backroom") {
+    pagenow[0] = "backroom";
+    pagenow[1] = "front";
+    change_page(pagenow);
+  }
   const puz = popups[puzname];
   if (!puz) {
     console.error("no popup:", puzname);
     return;
   }
-  $("#foreground")
-    .show()
-    .html(
-      `
+  $("#foreground").show().html(`
     <div class="popup">
     <button class="exit">X</button>
     <h1>${puz.name}</h1>
     <span>${puz.desc}</span>
     ${puz.img ? `<img src="${puz.img}" />` : ""}
     </div>
-    `
-    );
-};
-
-const change_page = (page) => {
-  console.log(page);
-  $(".item").remove();
-  let additional = "";
-  if (page[0] === "mainroom" && ["front", "left"].includes(page[1]) && page[2]) additional = "_screen";
-  $("#background").css("background-image", `url(./images/${page[0]}/${page[1]}/main${additional}.jpg)`);
-  objects[page[1] + additional].forEach((o) => {
-    $("#background").append(make_object(o));
-  });
+    `);
 };
 
 const move = (page, direction) => {
@@ -182,9 +203,6 @@ const move = (page, direction) => {
 };
 
 $(document).ready(() => {
-  // room, direction, screen, backdoor
-  // let pagenow = ["mainroom", "front", false, false];
-  let pagenow = ["mainroom", "front", false, false];
   change_page(pagenow);
   $("#foreground").hide();
 
@@ -222,7 +240,7 @@ $(document).ready(() => {
         $(`#background > [data-popup=${popupnow}]`).hide();
       }
     } else if (e.key === "ArrowDown") {
-      if (popupnow === "f_button_up" && pagenow[2] === false) {
+      if (popupnow === "f_button_up") {
         // screen down
         pagenow[2] = true;
         popupnow = undefined;
