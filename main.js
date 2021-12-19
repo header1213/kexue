@@ -66,6 +66,7 @@ const popups = {
     type: "message",
     name: "열쇠",
     desc: "답을 써 넣으니 열쇠가 뚝 떨어졌습니다. <br /> 열쇠를 획득했습니다.",
+    img: "./images/items/key.jpg",
   },
   f_button_up: {
     type: "confirm",
@@ -85,12 +86,14 @@ const popups = {
     desc: "평범한 흄 후드입니다.",
     img: "./images/mainroom/front/hood.jpg",
   },
+  // TODO: 스크린에 녹제거 띄우기
   screen: {
     type: "message",
     name: "스크린",
     desc: "무언가를 보여주고 있는 것 같습니다.",
     img: "./images/mainroom/front/screen.jpg",
   },
+  // TODO: 문 이미지 찍어올리기
   l_door1: {
     type: "confirm",
     name: "잠긴 문",
@@ -117,7 +120,7 @@ const popups = {
   l_board2: {
     type: "battle",
     name: "실험체: 탐구활동",
-    desc: "항상 모든 것을 탐구하고자 하는 자입니다.",
+    desc: "항상 탐구활동에만 몰입해 있는 자입니다.",
     img: "./images/mainroom/left/board2.jpg",
   },
   l_board3: {
@@ -183,13 +186,13 @@ const popups = {
   r_sink1: {
     type: "battle",
     name: "실험코드: DRYSINK",
-    desc: "언제라도 당신을 공격할 준비가 되어 있습니다.",
+    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> *경고* 이 적은 강합니다.",
     img: "./images/mainroom/right/sink1.jpg",
   },
   r_sink2: {
     type: "battle",
     name: "실험코드: WETSINK",
-    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> 물을 흘리고 있습니다.",
+    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> 물을 흘리고 있습니다. <br /> *경고* 이 적은 강합니다.",
     img: "./images/mainroom/right/sink2_water.jpg",
   },
   r_board: {
@@ -200,25 +203,25 @@ const popups = {
   },
   br_cabinet: {
     type: "confirm",
-    name: "시약장",
-    desc: "각종 위험 약품이 들어 있습니다. <br /> 하나 마셔 볼.. 아니, 챙겨 볼까요?",
+    name: "위험 약품",
+    desc: "시약장에 각종 위험 약품이 들어 있습니다. <br /> 조금 마셔 볼.. 아니, 챙겨 볼까요?",
     img: "./images/backroom/front/cabinet.jpg",
   },
   get_dangerous_liquid: {
     type: "message",
     name: "위험 약품",
-    desc: "아무것도 없습니다.",
+    desc: "위험 약품 몇 개를 챙겼습니다.",
     img: "./images/backroom/front/cabinet.jpg",
   },
   br_liquid: {
     type: "confirm",
     name: "기본 시약",
-    desc: "가장 기본적인 시약들입니다. <br /> 하나 마셔 볼.. 아니, 챙겨 볼까요?",
+    desc: "가장 기본적인 시약들입니다. <br /> 조금 마셔 볼.. 아니, 챙겨 볼까요?",
     img: "./images/backroom/left/liquid.jpg",
   },
   get_liquid: {
     type: "message",
-    name: "시약",
+    name: "기본 시약",
     desc: "염기, 유기물, 증류수를 챙겼습니다.",
     img: "./images/backroom/left/liquid.jpg",
   },
@@ -228,16 +231,16 @@ const popups = {
     desc: "책들이 쌓여 있습니다. <br /> 하나 읽고 갈까요?",
     img: "./images/backroom/right/books.jpg",
   },
-  time_pass: {
+  timepass: {
     type: "message",
     name: "책들",
-    desc: "읽다 보니 너무 재미있었다... <br /> 벌써 싸워야 할 시간이 된 것 같다.",
+    desc: "읽다 보니 너무 재미있습니다... <br /> 앗, 벌써 싸워야 할 시간이 된 것 같군요!",
     img: "./images/backroom/right/books.jpg",
   },
   br_linger: {
     type: "confirm",
     name: "링거",
-    desc: "시약의 양을 조절하는 기구입니다. <br /> 하나 챙겨 갈까요?",
+    desc: "시약의 투입 속도를 조절하는 기구입니다. <br /> 하나 챙겨 갈까요?",
     img: "./images/backroom/right/linger.jpg",
   },
   get_linger: {
@@ -252,6 +255,30 @@ const popups = {
     desc: "DNA는 디옥시리보핵산의 줄임으로, 대부분의 생명체의 유전 정보를 담고 있는 화학 물질입니다. 현대 분자생물학의 필수요소이며, 이중나선 구조의 주인공입니다. DNA는 본래 세포 내에서 가느다란 실과 같은 형태로 존재하지만, 세포가 분열할 때는 엉겨붙으며 염색체라는 굵직한 구조체를 형성합니다. 아시겠나요? 아셨으면 이제 창을 닫으세요.",
     img: "./images/backroom/right/dna.jpg",
   },
+  use_key: {
+    type: "message",
+    name: "열쇠",
+    desc: "어디에 사용하는 열쇠일까요?",
+    img: "./images/items/key.jpg",
+  },
+  use_dangerous_liquid: {
+    type: "confirm",
+    name: "위험 약품",
+    desc: "약품을 마실 수도 있고, 뿌릴 수도 있습니다. <br /> 어떤 행동을 할지는 저도 잘 모르겠네요. <br /> 아무튼 사용하시겠어요?",
+    img: "./images/items/dangerous_liquid.jpg",
+  },
+  use_liquid: {
+    type: "confirm",
+    name: "기본 시약",
+    desc: "시약을 마실 수도 있고, 뿌릴 수도 있습니다. <br /> 어떤 행동을 할지는 저도 잘 모르겠네요. <br /> 아무튼 사용하시겠어요?",
+    img: "./images/items/liquid.jpg",
+  },
+  use_linger: {
+    type: "confirm",
+    name: "링거",
+    desc: "사용하면 체력을 회복할 수 있습니다.",
+    img: "./images/items/linger.jpg",
+  },
 };
 
 // room, direction, screen, backdoor
@@ -260,8 +287,8 @@ let pagenow = ["mainroom", "front", false, false];
 
 let popupnow = undefined;
 
-const make_object = (o) => `<div
-  class="item"
+const makeObject = (o) => `<div
+  class="obj"
   data-popup=${o.name}
   style="
   left: calc(50% + ${o.pos[0]}vh);
@@ -271,7 +298,7 @@ const make_object = (o) => `<div
   > </div>
   `;
 
-const change_page = (page) => {
+const changePage = (page) => {
   let additional = "";
   if (page[0] === "mainroom") {
     if (page[2] && ["front", "left"].includes(page[1])) {
@@ -280,16 +307,16 @@ const change_page = (page) => {
       additional = "_open";
     }
   }
-  $(".item").remove();
+  $(".obj").remove();
   $("#background").css("background-image", `url(./images/${page[0]}/${page[1]}/main${additional}.jpg)`);
   objects[page[0]][page[1] + additional].forEach((o) => {
-    $("#background").append(make_object(o));
+    $("#background").append(makeObject(o));
   });
 };
 
 const popup = (popupname) => {
   if (!popupname) {
-    $("#foreground").hide();
+    $("#foreground").html("").hide();
     popupnow = undefined;
     return;
   }
@@ -348,11 +375,16 @@ const move = (page, direction) => {
 
 // TODO: battle 구현
 const battle = (enemy) => {
-  if (enemy == "boss") {
-    alert("보스배틀은 아직 구현중!");
-  } else {
-    alert("배틀은 아직 구현중!");
+  if (!enemy) {
+    $("#battle").hide();
+    return;
   }
+  // if (enemy == "boss") {
+  //   alert("보스배틀은 아직 구현중!");
+  // } else {
+  //   alert("배틀은 아직 구현중!");
+  // }
+  $("#battle").show();
 };
 
 const parseTime = (sec) => {
@@ -361,24 +393,46 @@ const parseTime = (sec) => {
   return `${m}:${s.toString().padStart(2, "0")}`;
 };
 let timeleft;
+let timer;
+const stopTimer = () => {
+  // $("#timer").hide();
+  clearInterval(timer);
+  timer = undefined;
+};
 const startTimer = (time) => {
   timeleft = time;
-  setInterval(() => {
+  timer = setInterval(() => {
     timeleft--;
     $("#timer").text(parseTime(timeleft));
     if (timeleft === 0) {
-      $("#timer").hide();
+      stopTimer();
       battle("boss");
     }
   }, 1000);
 };
 
-$(document).ready(() => {
-  change_page(pagenow);
+// TODO: getItem 구현
+let items = [];
+const getItem = (itemname, get = true) => {
+  if (get) {
+    items.push(itemname);
+  } else {
+    items = items.filter((i) => i !== itemname);
+  }
+  $("#inventory").html(items.map((i) => `<img src="images/items/${i}.jpg" id="${i}" />`).join(""));
+};
 
-  $(document).on("click", ".item", function () {
-    const puzname = $(this).data("popup");
-    popup(puzname);
+const clear = (popupname) => {
+  popups[popupname].type = "message";
+  popups[popupname].desc = "이곳에는 더 이상 볼 일이 없습니다.";
+};
+
+$(document).ready(() => {
+  changePage(pagenow);
+
+  $(document).on("click", ".obj", function () {
+    const popupname = $(this).data("popup");
+    popup(popupname);
   });
 
   $(document).on("click", "#foreground, .exit, .no", function (e) {
@@ -389,63 +443,66 @@ $(document).ready(() => {
 
   $(".left").click(() => {
     pagenow[1] = move(pagenow, 0);
-    change_page(pagenow);
+    changePage(pagenow);
   });
   $(".right").click(() => {
     pagenow[1] = move(pagenow, 1);
-    change_page(pagenow);
+    changePage(pagenow);
   });
 
-  // TODO: 아이템 어쩔건데
-  let items = [];
   $(document).on("click", ".yes", () => {
     if (popupnow === "f_button_up") {
-      // screen down
       pagenow[2] = true;
       popup("f_button_down");
-      change_page(pagenow);
+      changePage(pagenow);
     } else if (popupnow === "l_door1" || popupnow === "l_door2") {
       popup("l_door_magic");
     } else if (popupnow === "b_door_close") {
       if (items.includes("key")) {
+        getItem("key", false);
         pagenow[3] = true;
         popup("b_door_open");
-        change_page(pagenow);
+        changePage(pagenow);
       } else popup("b_door_lock");
     } else if (["backroom", "mainroom"].includes(popupnow)) {
       pagenow[0] = popupnow;
       pagenow[1] = "front";
-      change_page(pagenow);
+      changePage(pagenow);
       popup();
     } else if (popupnow === "br_linger") {
-      items.push("linger");
+      getItem("linger");
+      clear(popupnow);
       popup("get_linger");
     } else if (popupnow === "br_books") {
-      timeleft = -1;
+      stopTimer();
       popup("timepass");
-      // TODO: 시간 때워져서 보스직행
+      battle("boss");
     } else if (popupnow === "br_cabinet") {
-      items.push("dangerous_liquid");
+      getItem("dangerous_liquid");
+      clear(popupnow);
       popup("get_dangerous_liquid");
     } else if (popupnow === "br_liquid") {
-      items.push("liquid");
+      getItem("liquid");
+      clear(popupnow);
       popup("get_liquid");
     }
   });
   $(document).on("click", ".battle", () => {
+    clear(popupnow);
     battle(popupnow);
+    popup();
   });
   $(document).on("click", ".submit", () => {
     if (popupnow === "f_whiteboard") {
       if (parseInt($(".answer").val()) === 1024) {
-        items.push("key");
+        clear(popupnow);
+        getItem("key");
         popup("get_key");
       } else {
-        $(".answer").val("오답이다!");
+        $(".answer").val("");
+        $(".answer").attr("placeholder", "오답이다!");
       }
-      change_page(pagenow);
     }
-    objects[pagenow[0]][pagenow[1]] = objects[pagenow[0]][pagenow[1]].filter((o) => o.name !== popupnow);
   });
   document.addEventListener("keydown", (e) => {
     if (e.key == "Escape") {
@@ -454,9 +511,16 @@ $(document).ready(() => {
     }
   });
 
-  // #region
+  $(document).on("click", "#inventory > img", function () {
+    const itemname = $(this).attr("id");
+    console.log(itemname);
+    if (["key", "dangerous_liquid", "liquid", "linger"].includes(itemname)) {
+      popup("use_" + itemname);
+    }
+  });
+
   // preLoad (cache)
-  [
+  const _region = [
     // front
     "./images/mainroom/front/main.jpg",
     "./images/mainroom/front/main_screen.jpg",
@@ -498,25 +562,43 @@ $(document).ready(() => {
     "./images/backroom/right/linger.jpg",
     "./images/backroom/right/dna.jpg",
     "./images/backroom/back/main.jpg",
+    // items
+    "./images/items/key.jpg",
+    "./images/items/dangerous_liquid.jpg",
+    "./images/items/liquid.jpg",
+    "./images/items/linger.jpg",
+    // enemies
+    // TODO:"./images/enemies/boss.jpg",
+    "./images/enemies/board.jpg",
+    "./images/enemies/sink1.jpg",
+    "./images/enemies/sink2_water.jpg",
+    "./images/enemies/board1.jpg",
+    "./images/enemies/board2.jpg",
+    "./images/enemies/board3.jpg",
+    "./images/enemies/board4.jpg",
     // last
     "./images/example.jpg",
     "./images/arrow.png",
   ].forEach((src) => {
-    $("<img />").attr("src", src).appendTo("body");
-    if (src === "./images/arrow.png") {
-      change_page(pagenow);
-      console.log("GAME START!");
-      $("#start")
-        .css("background", "rgba(255, 0, 0, 0.5)")
-        .text("X")
-        .click(() => {
-          popup();
-          $("#background").hide();
-          $("#loading").hide();
-          $("#background").fadeIn(2000);
-          startTimer(5 * 60);
-        });
-    }
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      $("<img />").attr("src", src).appendTo("body");
+      if (src === "./images/arrow.png") {
+        changePage(pagenow);
+        console.log("GAME START!");
+        $("#start")
+          .css("background", "rgba(255, 0, 255, 0.4)")
+          .text("시작!")
+          .click(() => {
+            popup();
+            battle();
+            $("#loading").hide();
+            startTimer(5 * 60);
+            // TODO: battle 지우기
+            battle("boss");
+          });
+      }
+    };
   });
-  // #endregion
 });

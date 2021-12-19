@@ -1,0 +1,12 @@
+#enemy {
+  flex: 0 0 50vh;
+  text-align: center;
+}
+#enemy img {
+  height: 50vh;
+  border-radius: 2vh;
+}
+
+#me {
+  flex: 0 0 auto;
+}

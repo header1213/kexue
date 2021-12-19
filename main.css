@@ -22,12 +22,99 @@ body > img {
   z-index: 10;
 }
 
+#inventory {
+  background: rgba(70, 149, 144, 0.6);
+  position: fixed;
+  width: 80vh;
+  height: 12vh;
+  border-radius: 2vh 2vh 0 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 2vh;
+  z-index: 8;
+}
+#inventory > img {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 2vh;
+  cursor: pointer;
+}
+
+#battle {
+  background: rgba(255, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 7;
+}
+/* #region enemy */
+#enemy {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2vh 0;
+}
+#enemy img {
+  height: 40vh;
+  border: 3px solid gold;
+  border-radius: 2vh;
+}
+#enemy .name {
+  color: white;
+  text-shadow: 0 0 4px black;
+  font-size: 4vh;
+  font-weight: bold;
+}
+#enemy .stats {
+  display: flex;
+  width: 20vh;
+  justify-content: space-between;
+}
+#enemy .atk::before {
+  content: "공격력";
+  display: inline-block;
+  font-size: 2vh;
+  margin-right: 5px;
+}
+#enemy .hp::before {
+  content: "체력";
+  display: inline-block;
+  font-size: 2vh;
+  margin-right: 5px;
+}
+#enemy .atk,
+#enemy .hp {
+  color: white;
+  text-shadow: 0 0 4px black;
+  font-size: 4vh;
+  font-weight: bold;
+}
+/* #endregion enemy */
+
+#me {
+  flex: 0 0 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  row-gap: 2vh;
+}
+
+/* #region foreground */
 #foreground {
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  z-index: 5;
+  z-index: 9;
 }
 .popup {
   position: fixed;
@@ -74,12 +161,23 @@ body > img {
   display: flex;
   column-gap: 2vh;
 }
+.popup button.yes {
+  background: skyblue;
+  right: calc(50% + 10vh);
+}
+.popup button.no {
+  background: darksalmon;
+  left: calc(50% + 10vh);
+}
+/* #endregion */
+
 #start,
 .popup button.yes,
 .popup button.no,
 .popup button.battle,
 .popup button.submit,
-.popup input {
+.popup input,
+#battle button {
   width: 20vh;
   height: 5vh;
   border-radius: 2vh;
@@ -90,15 +188,8 @@ body > img {
   text-align: center;
   font-family: "Hahmlet";
 }
-.popup button.yes {
-  background: skyblue;
-  right: calc(50% + 10vh);
-}
-.popup button.no {
-  background: darksalmon;
-  left: calc(50% + 10vh);
-}
 
+/* #region background */
 #background {
   background: no-repeat top/auto 100% black;
   background-image: url("./images/mainroom/front/main.jpg");
@@ -117,7 +208,7 @@ body > img {
   font-size: 5vh;
   font-weight: 900;
 }
-.item {
+.obj {
   transform: translate(-50%, -50%);
   position: fixed;
   border-radius: 7px;
@@ -140,11 +231,12 @@ body > img {
   left: calc(50% + 45vh);
   transform: rotate(90deg);
 }
+/* #endregion */
 
 /* 나중에 지울것 */
 /* .arrow {
   border: 1px solid red;
 }
-.item {
+.obj {
   border: 1px solid gold;
 } */
