@@ -33,10 +33,10 @@ const objects = {
       { name: "b_cabinet3", pos: [52, 6, 29, 34] },
     ],
     back_open: [
-      { name: "backroom", pos: [-30, -2, 12, 32] },
-      { name: "b_cabinet1", pos: [-8, 3, 29, 23] },
-      { name: "b_cabinet2", pos: [22, 3, 29, 23] },
-      { name: "b_cabinet3", pos: [52, 6, 29, 34] },
+      { name: "backroom", pos: [-40, 1, 13, 33] },
+      { name: "b_cabinet1", pos: [-15, 8, 33, 25] },
+      { name: "b_cabinet2", pos: [18, 8, 32, 25] },
+      { name: "b_cabinet3", pos: [50, 11, 32, 36] },
     ],
     right: [
       { name: "r_sink1", pos: [-15, 12, 20, 8] },
@@ -86,19 +86,17 @@ const popups = {
     desc: "평범한 흄 후드입니다.",
     img: "./images/mainroom/front/hood.jpg",
   },
-  // TODO: 스크린에 녹제거 띄우기
   screen: {
     type: "message",
     name: "스크린",
-    desc: "무언가를 보여주고 있는 것 같습니다.",
+    desc: "이딴 걸 왜 써놓은 거지..? <br /> 음... 일단 지금은 필요 없는 것 같네요.",
     img: "./images/mainroom/front/screen.jpg",
   },
-  // TODO: 문 이미지 찍어올리기
   l_door1: {
     type: "confirm",
     name: "잠긴 문",
     desc: "굳게 잠궈 놓았습니다. <br /> 문을 여는 마법의 주문을 외쳐 볼까요?",
-    img: "./images/example.jpg",
+    img: "./images/mainroom/left/door1.jpg",
   },
   l_door2: {
     type: "confirm",
@@ -279,60 +277,66 @@ const popups = {
     desc: "사용하면 체력을 회복할 수 있습니다.",
     img: "./images/items/linger.jpg",
   },
-  //TODO:
   battle_info: {
     type: "message",
     name: "전투 개요",
     desc: "전투는 나 한 턴, 상대 한 턴을 번갈아가며 진행합니다. <br /> <br /> \
     한 턴에는 일반 공격, 스킬 사용, 아이템 사용 중 하나만을 할 수 있습니다. <br /> <br /> \
-    스킬들을 적절히 조합하여 적을 처치하고 승리하세요! <br /> <br /> \
+    스킬은 한 전투에 한 번 사용할 수 있고, 아이템은 사용하면 사라집니다. <br /> <br /> \
+    스킬의 효과를 잘 모르겠다면 마우스를 올려 두면 나오는 설명을 참고하세요. <br /> <br /> \
+    스킬과 아이템을 적절히 조합하여 적을 처치하고 승리하세요! <br /> <br /> \
     처치 보상으로 스킬을 받을 경우 자신의 스킬 하나를 포기해야 합니다.",
   },
-  win_boss: {},
   win_gigu: {
     type: "confirm",
     name: "승리!",
     desc: "실험체: 실험기구에게 승리했습니다. <br /> 보상으로 스킬 '진공관'을 받으시겠습니까?",
-    img: "./images/enemies/board1.jpg",
+    img: "./images/enemies/gigu.jpg",
   },
   win_tamgu: {
     type: "confirm",
     name: "승리!",
     desc: "실험체: 탐구활동에게 승리했습니다. <br /> 보상으로 패시브 스킬 '몰입'을 받으시겠습니까?",
+    img: "./images/enemies/tamgu.jpg",
   },
   win_pyesu: {
     type: "confirm",
     name: "승리!",
-    desc: "실험체: 실험폐수에게 승리했습니다. <br /> 보상으로 스킬 '분사'를 받으시겠습니까?",
+    desc: "실험체: 실험폐수에게 승리했습니다. <br /> 보상으로 스킬 '폐수 분사'를 받으시겠습니까?",
+    img: "./images/enemies/pyesu.jpg",
   },
   win_suchik: {
     type: "confirm",
     name: "승리!",
     desc: "실험체: 안전수칙에게 승리했습니다. <br /> 보상으로 패시브 스킬 '첫째는 안전'을 받으시겠습니까?",
+    img: "./images/enemies/suchik.jpg",
   },
   win_reuse: {
     type: "confirm",
     name: "승리!",
     desc: "실험체: 재활용에게 승리했습니다. <br /> 보상으로 스킬 '부패'를 받으시겠습니까?",
+    img: "./images/enemies/reuse.jpg",
   },
   win_drysink: {
     type: "message",
     name: "승리!",
     desc: "실험코드: DRYSINK에게 승리했습니다. <br /> 보상으로 스탯 1/2를 받았습니다.",
+    img: "./images/enemies/drysink.jpg",
   },
   win_wetsink: {
     type: "message",
     name: "승리!",
     desc: "실험코드: WETSINK에게 승리했습니다. <br /> 보상으로 스탯 2/1을 받았습니다.",
+    img: "./images/enemies/wetsink.jpg",
   },
 };
 const enemies = {
   boss: {
     id: "boss",
-    name: "보스",
+    name: "린선 일족 연구자",
     atk: 5,
     hp: 10,
-    reward: "clear",
+    skills: ["gown", "base", "acid"],
   },
   l_board1: {
     id: "gigu",
@@ -340,69 +344,173 @@ const enemies = {
     atk: 2,
     hp: 7,
     skills: ["vacuum", "accel"],
-    reward: "vacuum",
+    sequence: ["accel", "attack", "attack", "attack", "attack", "attack"],
   },
   l_board2: {
     id: "tamgu",
     name: "실험체: 탐구활동",
     atk: 3,
-    hp: 10,
-    passive: ["immersion"],
-    skills: ["explore", "activity"],
-    reward: "activity",
+    hp: 5,
+    skills: ["immersion", "explore", "activity"],
+    sequence: ["explore", "activity", "explore", "attack", "attack", "attack", "attack", "attack"],
   },
   l_board3: {
     id: "pyesu",
     name: "실험체: 실험폐수",
-    atk: 20,
+    atk: 100,
     hp: 5,
-    passive: ["addiction"],
-    skills: ["spray"],
-    reward: "spray",
+    skills: ["addiction", "spray"],
+    sequence: ["spray"],
   },
   l_board4: {
     id: "suchik",
     name: "실험체: 안전수칙",
     atk: 1,
     hp: 12,
-    passive: ["first"],
-    skills: ["second", "third"],
-    reward: "first",
-  },
-  r_sink1: {
-    id: "drysink",
-    name: "실험코드: DRYSINK",
-    atk: 7,
-    hp: 10,
-    reward: [1, 2],
-  },
-  r_sink2: {
-    id: "wetsink",
-    name: "실험코드: WETSINK",
-    atk: 10,
-    hp: 7,
-    reward: [2, 1],
+    skills: ["first", "second", "third"],
+    sequence: ["second", "third", "attack", "attack", "attack", "attack", "attack"],
   },
   r_board: {
     id: "reuse",
     name: "실험체: 재활용",
+    life: 3,
     atk: 1,
     hp: 1,
-    passive: ["reuse"],
-    skills: ["corruption"],
+    skills: ["reuse", "corruption"],
+    sequence: ["corruption", "attack", "attack", "attack", "attack", "attack"],
+  },
+  r_sink1: {
+    id: "drysink",
+    name: "실험코드: DRYSINK",
+    atk: 5,
+    hp: 6,
+    skills: [],
+    sequence: ["attack", "attack", "attack", "attack", "attack"],
+  },
+  r_sink2: {
+    id: "wetsink",
+    name: "실험코드: WETSINK",
+    atk: 6,
+    hp: 5,
+    skills: [],
+    sequence: ["attack", "attack", "attack", "attack", "attack"],
   },
 };
 const skills = {
-  vacuum: {
-    name: "진공관",
+  smite: {
+    type: "skill",
+    name: "강타",
+    tooltip: "공격력의 두 배로 공격합니다.",
   },
+  batter: {
+    type: "skill",
+    name: "연타",
+    tooltip: "공격력보다 조금 약하게 세 번 공격합니다.",
+  },
+  improve: {
+    type: "skill",
+    name: "증강",
+    tooltip: "공격력과 체력을 이번 전투에서 조금 늘립니다.",
+  },
+  accel: {
+    type: "skill",
+    name: "가속기",
+    tooltip: "다음 공격이 세 배가 됩니다.",
+  },
+  explore: {
+    type: "skill",
+    name: "탐구",
+    tooltip: "공격력을 영구히 조금 늘립니다. '활동'을 활성화합니다.",
+  },
+  activity: {
+    type: "skill",
+    name: "활동",
+    tooltip: "체력을 영구히 조금 늘립니다. '탐구'를 활성화합니다.",
+  },
+  spray: {
+    type: "skill",
+    name: "폐수 분사",
+    tooltip: "공격력만큼의 피해를 나와 상대에게 무작위로 나누어 입힙니다.",
+  },
+  second: {
+    type: "skill",
+    name: "둘째도 안전",
+    tooltip: "상대의 공격력을 이번 전투에서 조금 낮춥니다.",
+  },
+  third: {
+    type: "skill",
+    name: "셋째도 안전",
+    tooltip: "자신의 체력을 이번 전투에서 조금 늘립니다.",
+  },
+  corruption: {
+    type: "skill",
+    name: "부패",
+    tooltip: "매 턴 상대에게 조금의 피해를 입힙니다.",
+  },
+  base: {
+    type: "skill",
+    name: "강염기",
+    tooltip: "자신의 체력을 공격력과 같게 만듭니다.",
+  },
+  acid: {
+    type: "skill",
+    name: "강산",
+    tooltip: "상대의 체력을 공격력과 같게 만듭니다.",
+  },
+
+  vacuum: {
+    type: "passive",
+    name: "진공관",
+    tooltip: "받는 모든 피해가 1씩 줄어듭니다.",
+  },
+  immersion: {
+    type: "passive",
+    name: "몰입",
+    tooltip: "스킬을 사용한 턴에 받는 피해가 1씩 줄어듭니다.",
+  },
+  addiction: {
+    type: "passive",
+    name: "중독",
+    tooltip: "스킬을 사용한 턴에 자신의 공격력이 1씩 증가합니다.",
+  },
+  first: {
+    type: "passive",
+    name: "첫째는 안전",
+    tooltip: "일정 확률로 공격을 회피합니다.",
+  },
+  reuse: {
+    type: "passive",
+    name: "재활용",
+    tooltip: "죽어도 두 번까지 살아납니다.",
+  },
+  gown: {
+    type: "passive",
+    name: "실험 가운",
+    tooltip: "받는 모든 피해가 2씩 줄어듭니다.",
+  },
+};
+const passives = {};
+const rewards = {
+  boss: "clear",
+  gigu: "vacuum",
+  tamgu: "immersion",
+  pyesu: "spray",
+  suchik: "first",
+  reuse: "corruption",
+  drysink: [1, 2],
+  wetsink: [2, 1],
 };
 
 // room, direction, screen, backdoor
 let pagenow = ["mainroom", "front", false, false];
-// let pagenow = ["backroom", "right", false, true];
+// let pagenow = ["mainroom", "back", false, true];
 
 let popupnow = undefined;
+
+let idlebgm = new Audio("./sounds/idle.mp3");
+let battlebgm = new Audio("./sounds/battle.mp3");
+idlebgm.loop = true;
+battlebgm.loop = true;
 
 const makeObject = (o) => `<div
   class="obj"
@@ -414,6 +522,7 @@ const makeObject = (o) => `<div
     height: ${o.pos[3]}vh"
   > </div>
   `;
+const makeSkill = (skill) => `<button class="${skills[skill].type} ${skill}"><abbr title="${skills[skill].tooltip}">${skills[skill].name}</abbr></button>`;
 
 const changePage = (page) => {
   let additional = "";
@@ -431,7 +540,7 @@ const changePage = (page) => {
   });
 };
 
-const popup = (popupname) => {
+const popup = (popupname, second) => {
   if (!popupname) {
     $("#foreground").html("").hide();
     popupnow = undefined;
@@ -439,7 +548,14 @@ const popup = (popupname) => {
   }
   console.log(popupname);
   popupnow = popupname;
-  const pp = popups[popupname];
+  let pp;
+  if (popupname === "change_skill") {
+    pp = {
+      type: "skill",
+      name: "스킬 획득!",
+      desc: `${skills[rewards[second]].name} 스킬을 획득합니다! <br /> 포기할 스킬을 선택하세요.`,
+    };
+  } else pp = popups[popupname];
   if (!pp) {
     console.error(`no popup: ${popupname}`);
     return;
@@ -471,6 +587,14 @@ const popup = (popupname) => {
       <button class="battle">싸우자!</button>
     </div>
     `);
+  } else if (pp.type === "skill") {
+    let select = $(`<div class="select"></div>`).appendTo(popup);
+    menow.skills.forEach((skill) => {
+      $(makeSkill(skill))
+        .click(() => changeSkill(skill, rewards[second]))
+        .appendTo(select);
+    });
+    $(`<button class="giveup">그냥 버리기</button>`).appendTo(popup);
   } else if (pp.type !== "message") {
     console.error(`unknown type: ${pp.type}(${popupname})`);
   }
@@ -497,54 +621,56 @@ let menow = {
   atkplus: 0,
   hp: 5,
   hpplus: 0,
+  def: 0,
+  accel: false,
   skills: ["smite", "batter", "improve"],
-  // TODO: 사용한 스킬 막기
-  skillused: [],
 };
-let enemynow = {
-  atk: 1,
-  hp: 7,
-};
-// TODO: battle 구현
-const getSkill = (skillname) => {
-  $("#skills").append(`<button class="skill ${skillname}">강타</button>`).show();
-};
-const reward = (enemy) => {
-  switch (enemy) {
-    case "boss":
-      break;
-    case "gigu":
-      break;
-    case "tamgu":
-      break;
-    case "pyesu":
-      break;
-    case "suchik":
-      break;
-    case "reuse":
-      break;
-    case "drysink":
-      menow.atk += 1;
-      menow.hp += 2;
-      break;
-    case "wetsink":
-      menow.atk += 2;
-      menow.hp += 1;
-      break;
-  }
+let enemynow = {};
+const changeSkill = (skillbefore, skillname) => {
+  if (skillbefore) menow.skills[menow.skills.findIndex((e) => e === skillbefore)] = skillname;
+  $("#me .skills").html("");
+  menow.skills.forEach((skill) => {
+    $("#me .skills").append(makeSkill(skill));
+  });
+  console.log(menow.skills);
 };
 const battle = (enemy) => {
-  if (fighting == undefined) popup("battle_info");
+  if (enemy == "boss") {
+    $("body").fadeOut(2000, () => {
+      idlebgm.pause();
+      battlebgm.pause();
+      new Audio("./sounds/boss.mp3").play();
+      $("body").fadeIn(2000);
+    });
+  } else {
+    idlebgm.pause();
+    battlebgm.play();
+  }
+  if (fighting === undefined && popupnow !== "timepass") popup("battle_info");
   else popup();
   fighting = true;
   enemynow = enemies[enemy];
   turn = 0;
+  menow.def = 0;
+  menow.accel = false;
+  menow.corruption = 0;
+  enemynow["atkplus"] = 0;
+  enemynow["hpplus"] = 0;
+  enemynow["def"] = 0;
+  enemynow["accel"] = false;
+  enemynow["corruption"] = 0;
   menow.atkplus = 0;
   menow.hpplus = 0;
-  skillused = [];
+  menow.skillused = [];
+  changeSkill();
+  $("#enemy > img").attr("src", `./images/enemies/${enemynow.id}.jpg`);
   $("#enemy .name").text(enemynow.name);
   $("#enemy .atk").text(enemynow.atk).css("color", "white");
   $("#enemy .hp").text(enemynow.hp).css("color", "white");
+  $("#enemy .skills").html("");
+  enemynow.skills.forEach((skill) => {
+    $("#enemy .skills").append(makeSkill(skill));
+  });
   $("#me .atk")
     .text(menow.atk + menow.atkplus)
     .css("color", "white");
@@ -553,29 +679,74 @@ const battle = (enemy) => {
     .css("color", "white");
   $("#battle").show();
 };
+
 const reloadStats = () => {
+  if (!fighting) return;
   $("#enemy .atk").text(enemynow.atk);
   $("#enemy .hp").text(enemynow.hp);
   $("#me .atk").text(menow.atk + menow.atkplus);
   $("#me .hp").text(menow.hp + menow.hpplus);
 
-  // WIN
-  if (enemynow.hp <= 0) {
+  // TODO: 패배로직
+  if (menow.hp + menow.hpplus <= 0) {
+    $("#lose").fadeIn(2000);
+  } else if (enemynow.hp + enemynow.hpplus <= 0) {
+    if (enemynow.life != undefined) {
+      if (--enemynow.life !== 0) {
+        setTimeout(() => {
+          enemynow.hp = 1;
+          reloadStats();
+        }, 300);
+        return;
+      }
+    }
     $("#battle").fadeOut(2000, () => {
-      popup("win_" + enemynow.id);
-      reward(enemynow.id);
+      battlebgm.load();
+      idlebgm.play();
+      fighting = false;
+      switch (enemynow.id) {
+        case "boss":
+          new Audio("./sounds/clear.mp3").play();
+          $("#clear").fadeIn(2000);
+          break;
+        case "drysink":
+        case "wetsink":
+          buff("me", ...rewards[enemynow.id], false);
+        default:
+          popup("win_" + enemynow.id);
+      }
     });
   }
 };
-const attack = (bias, count = 1) => {
+const attack = (who, bias, count = 1) => {
   let atked = 0;
-  let damage = menow.atk + menow.atkplus + bias;
+  let damage;
+  if (who === "me") {
+    damage = enemynow.atk + enemynow.atkplus + bias;
+    console.log(enemynow.atk, enemynow.atkplus, bias);
+    console.log(damage);
+    if (enemynow.accel) {
+      damage *= 3;
+      enemynow.accel = false;
+    }
+  } else {
+    damage = menow.atk + menow.atkplus + bias;
+    if (menow.accel) {
+      damage *= 3;
+      menow.accel = false;
+    }
+  }
   var atkid = setInterval(() => {
-    enemynow.hp -= damage;
-    if (damage > 0) $("#enemy .hp").css("color", "red");
+    if (who === "enemy") {
+      enemynow.hp -= damage;
+      if (damage > 0) $("#enemy .hp").css("color", "red");
+    } else {
+      menow.hp -= damage;
+      if (damage > 0) $("#me .hp").css("color", "red");
+    }
     reloadStats();
     if (++atked === count) clearInterval(atkid);
-  }, 300);
+  }, 200);
 };
 const buff = (who, atk, hp, temp = true) => {
   colors = [undefined, undefined];
@@ -602,43 +773,62 @@ const buff = (who, atk, hp, temp = true) => {
   }
   reloadStats();
 };
-const myAction = (action) => {
-  if (action[0] === "attack") {
-    attack(0);
-  }
-  if (action[0] === "skill") {
-    switch (action[1]) {
-      case "smite":
-        attack((menow.atk + menow.atkplus) * (1 + Math.floor(Math.random() * 2))); // 2~3배
+const enemyAction = () => {
+  setTimeout(() => {
+    //TODO: 적
+    const action = enemynow.sequence[Math.floor(turn / 2)];
+    console.log("enemy", action);
+    switch (action) {
+      case "attack":
+        attack("me", 0);
         break;
-      case "batter":
-        attack(-1, 3);
-        break;
-      case "improve":
-        buff("me", 1, 1);
-        break;
-      // TODO: 스킬 구현
-      case "vacuum":
       case "accel":
+        popup("accel");
+        enemynow.accel = true;
+        $(".skill.accel").css("background", "gray");
+        break;
       case "explore":
+        popup("explore");
+        buff("enemy", 1, 0, false);
+        $(".skill.explore").css("background", "gray");
+        $(".skill.activity").css("background", "white");
+        break;
       case "activity":
+        popup("activity");
+        buff("enemy", 1, 0, false);
+        $(".skill.activity").css("background", "gray");
+        $(".skill.explore").css("background", "white");
+        break;
       case "spray":
+        popup("spray");
+        for (let i = 0; i < menow.atk; i++) {
+          if (Math.random() < 0.5) attack("enemy", 0);
+          else attack("me", 0);
+        }
+        $(".skill.spray").css("background", "gray");
+        break;
       case "second":
+        popup("second");
+        menow.atkplus--;
+        reloadStats();
+        $(".skill.second").css("background", "gray");
+        break;
       case "third":
+        popup("third");
+        enemynow.hpplus++;
+        reloadStats();
+        $(".skill.third").css("background", "gray");
+        break;
       case "corruption":
+        popup("corruption");
+        menow.corruption++;
+        $(".skill.corruption").css("background", "gray");
         break;
     }
-  }
-};
-const enemyAction = () => {
-  $("#battle button").css({ background: "gray", cursor: "default" });
-  setTimeout(() => {
-    //TODO: action
-
     setTimeout(() => {
-      $("#battle button").css({ background: "white", cursor: "pointer" });
+      turn++;
     }, 1000);
-  }, 1000);
+  }, 2000);
 };
 
 const parseTime = (sec) => {
@@ -649,7 +839,7 @@ const parseTime = (sec) => {
 let timeleft;
 let timer;
 const stopTimer = () => {
-  // $("#timer").hide();
+  $("#timer").hide();
   clearInterval(timer);
   timer = undefined;
 };
@@ -665,7 +855,6 @@ const startTimer = (time) => {
   }, 1000);
 };
 
-// TODO: 아이템 구현
 let items = [];
 const getItem = (itemname, get = true) => {
   if (get) {
@@ -689,7 +878,7 @@ $(document).ready(() => {
     popup(popupname);
   });
 
-  $(document).on("click", "#foreground, .exit, .no", function (e) {
+  $(document).on("click", "#foreground, .exit, .no, .giveup, .select *", function (e) {
     if (e.target === this) {
       popup();
     }
@@ -750,23 +939,12 @@ $(document).ready(() => {
         clear(popupnow);
         popup("get_liquid");
         break;
-      // TODO: 보상 수락
-      case "win_boss":
-        break;
       case "win_gigu":
-        getSkill("vacuum");
-        break;
       case "win_tamgu":
-        getSkill("immersion");
-        break;
       case "win_pyesu":
-        getSkill("spray");
-        break;
       case "win_suchik":
-        getSkill("first");
-        break;
       case "win_reuse":
-        getSkill("corruption");
+        popup("change_skill", popupnow.split("_")[1]);
         break;
     }
   });
@@ -793,6 +971,7 @@ $(document).ready(() => {
     }
   });
 
+  // TODO: 아이템 구현
   $(document).on("click", "#inventory > img", function () {
     const itemname = $(this).attr("id");
     console.log(itemname);
@@ -801,89 +980,127 @@ $(document).ready(() => {
     }
   });
 
-  $(document).on("click", ".attack, .skill", function () {
+  $(document).on("click", ".attack, #me .skill", function () {
+    if (turn % 2 !== 0) return;
     const action = $(this).attr("class").split(" ");
-    myAction(action);
-  });
-
-  // preLoad (cache)
-  const _region = [
-    // front
-    "./images/mainroom/front/main.jpg",
-    "./images/mainroom/front/main_screen.jpg",
-    "./images/mainroom/front/button_down.jpg",
-    "./images/mainroom/front/button_up.jpg",
-    "./images/mainroom/front/whiteboard.jpg",
-    "./images/mainroom/front/screen.jpg",
-    "./images/mainroom/front/hood.jpg",
-    // left
-    "./images/mainroom/left/main.jpg",
-    "./images/mainroom/left/main_screen.jpg",
-    // './images/mainroom/left/door1.jpg',
-    "./images/mainroom/left/door2.jpg",
-    "./images/mainroom/left/board1.jpg",
-    "./images/mainroom/left/board2.jpg",
-    "./images/mainroom/left/board3.jpg",
-    "./images/mainroom/left/board4.jpg",
-    // right
-    "./images/mainroom/right/main.jpg",
-    "./images/mainroom/right/sink1.jpg",
-    "./images/mainroom/right/sink2.jpg",
-    "./images/mainroom/right/sink2_water.jpg",
-    "./images/mainroom/right/board.jpg",
-    // back
-    "./images/mainroom/back/main.jpg",
-    "./images/mainroom/back/main_open.jpg",
-    "./images/mainroom/back/backdoor_close.jpg",
-    "./images/mainroom/back/backdoor_open.jpg",
-    "./images/mainroom/back/cabinet1.jpg",
-    "./images/mainroom/back/cabinet2.jpg",
-    "./images/mainroom/back/cabinet3.jpg",
-    // backroom
-    "./images/backroom/front/main.jpg",
-    "./images/backroom/front/cabinet.jpg",
-    "./images/backroom/left/main.jpg",
-    "./images/backroom/left/liquid.jpg",
-    "./images/backroom/right/main.jpg",
-    "./images/backroom/right/books.jpg",
-    "./images/backroom/right/linger.jpg",
-    "./images/backroom/right/dna.jpg",
-    "./images/backroom/back/main.jpg",
-    // items
-    "./images/items/key.jpg",
-    "./images/items/dangerous_liquid.jpg",
-    "./images/items/liquid.jpg",
-    "./images/items/linger.jpg",
-    // enemies
-    // TODO:"./images/enemies/boss.jpg",
-    "./images/enemies/board.jpg",
-    "./images/enemies/sink1.jpg",
-    "./images/enemies/sink2_water.jpg",
-    "./images/enemies/board1.jpg",
-    "./images/enemies/board2.jpg",
-    "./images/enemies/board3.jpg",
-    "./images/enemies/board4.jpg",
-    // last
-    "./images/example.jpg",
-    "./images/arrow.png",
-  ].forEach((src) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      $("<img />").attr("src", src).appendTo("body");
-      if (src === "./images/arrow.png") {
-        changePage(pagenow);
-        console.log("GAME START!");
-        $("#start")
-          .css("background", "rgba(255, 0, 255, 0.4)")
-          .text("시작!")
-          .click(() => {
-            popup();
-            $("#battle").hide();
-            $("#loading").hide();
-            startTimer(5 * 60);
-          });
+    console.log("me", action);
+    if (action[0] === "attack") {
+      attack("enemy", 0);
+    }
+    if (action[0] === "skill") {
+      if (action.includes("used")) return;
+      $(this).addClass("used");
+      switch (action[1]) {
+        case "smite":
+          attack("enemy", menow.atk + menow.atkplus);
+          break;
+        case "batter":
+          attack("enemy", -1, 3);
+          break;
+        case "improve":
+          buff("me", 1, 1);
+          break;
+        case "accel":
+          menow.accel = true;
+          break;
+        case "spray":
+          for (let i = 0; i < menow.atk; i++) {
+            if (Math.random() < 0.5) attack("enemy", 0);
+            else attack("me", 0);
+          }
+          break;
+        case "corruption":
+          enemynow.corruption++;
+          break;
       }
-    };
+      $(`.skill.${action[1]}`).addClass("used");
+    }
+    turn++;
+    enemyAction();
   });
+});
+
+// preLoad
+const audios = [new Audio("./sounds/battle.mp3"), new Audio("./sounds/boss.mp3"), new Audio("./sounds/clear.mp3"), new Audio("./sounds/idle.mp3")];
+const _region = [
+  // front
+  "./images/mainroom/front/main.jpg",
+  "./images/mainroom/front/main_screen.jpg",
+  "./images/mainroom/front/button_down.jpg",
+  "./images/mainroom/front/button_up.jpg",
+  "./images/mainroom/front/whiteboard.jpg",
+  "./images/mainroom/front/screen.jpg",
+  "./images/mainroom/front/hood.jpg",
+  // left
+  "./images/mainroom/left/main.jpg",
+  "./images/mainroom/left/main_screen.jpg",
+  "./images/mainroom/left/door1.jpg",
+  "./images/mainroom/left/door2.jpg",
+  "./images/mainroom/left/board1.jpg",
+  "./images/mainroom/left/board2.jpg",
+  "./images/mainroom/left/board3.jpg",
+  "./images/mainroom/left/board4.jpg",
+  // right
+  "./images/mainroom/right/main.jpg",
+  "./images/mainroom/right/sink1.jpg",
+  "./images/mainroom/right/sink2.jpg",
+  "./images/mainroom/right/sink2_water.jpg",
+  "./images/mainroom/right/board.jpg",
+  // back
+  "./images/mainroom/back/main.jpg",
+  "./images/mainroom/back/main_open.jpg",
+  "./images/mainroom/back/backdoor_close.jpg",
+  "./images/mainroom/back/backdoor_open.jpg",
+  "./images/mainroom/back/cabinet1.jpg",
+  "./images/mainroom/back/cabinet2.jpg",
+  "./images/mainroom/back/cabinet3.jpg",
+  // backroom
+  "./images/backroom/front/main.jpg",
+  "./images/backroom/front/cabinet.jpg",
+  "./images/backroom/left/main.jpg",
+  "./images/backroom/left/liquid.jpg",
+  "./images/backroom/right/main.jpg",
+  "./images/backroom/right/books.jpg",
+  "./images/backroom/right/linger.jpg",
+  "./images/backroom/right/dna.jpg",
+  "./images/backroom/back/main.jpg",
+  // items
+  "./images/items/key.jpg",
+  "./images/items/dangerous_liquid.jpg",
+  "./images/items/liquid.jpg",
+  "./images/items/linger.jpg",
+  // enemies
+  "./images/enemies/boss.jpg",
+  "./images/enemies/gigu.jpg",
+  "./images/enemies/tamgu.jpg",
+  "./images/enemies/pyesu.jpg",
+  "./images/enemies/suchik.jpg",
+  "./images/enemies/reuse.jpg",
+  "./images/enemies/drysink.jpg",
+  "./images/enemies/wetsink.jpg",
+  // last
+  "./images/example.jpg",
+  "./images/arrow.png",
+].forEach((src) => {
+  const img = new Image();
+  img.src = src;
+  img.onload = () => {
+    $("<img />").attr("src", src).appendTo("body");
+    if (src === "./images/arrow.png") {
+      changePage(pagenow);
+      console.log("GAME START!");
+      $("#start")
+        .css("background", "rgba(255, 0, 255, 0.4)")
+        .text("시작!")
+        .click(() => {
+          popup();
+          idlebgm.play();
+          $("#battle").hide();
+          $("#clear").hide();
+          $("#lose").hide();
+          $("#loading").hide();
+          startTimer(5 * 60);
+        });
+    }
+  };
 });

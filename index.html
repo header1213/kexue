@@ -9,6 +9,30 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body ondragstart="return false;" onselectstart="return false;">
+    <div id="clear" class="popup">
+      <h1>클리어!</h1>
+      <span>
+        당신은 이곳 '디스토피아 랩'에서 연구자를 물리치고 <br />
+        <br />
+        황금의 문자 <big style="color: gold; font-weight: bold; text-shadow: 0px 0px 3px black">T</big>에 대한 힌트를 얻었습니다. <br />
+        <br />
+        하지만 아직 <big style="color: gold; font-weight: bold; text-shadow: 0px 0px 3px black">황금 ST</big>를 완성하기 위한 여정은 끝나지 않았습니다. <br />
+        <br />
+        이제 당신은 또 다른 곳으로 여정을 떠납니다....
+      </span>
+    </div>
+    <div id="lose" class="popup">
+      <h1>패배...</h1>
+      <span>
+        당신은 황금의 문자를 찾던 과정에서 적과 싸우게 되었고 <br />
+        <br />
+        고전했으나 결국 쓰라린 패배를 맛보게 되었습니다. <br />
+        <br />
+        비록 당신이 <big style="color: gold; font-weight: bold; text-shadow: 0px 0px 3px black">황금 ST</big>를 완성시키지는 못했으나, <br />
+        <br />
+        당신은 후대의 탐험가들에게 길이 기억되며 추앙받을 것입니다....
+      </span>
+    </div>
     <div id="loading">
       <div class="popup">
         <h1>디스토피아 랩</h1>
@@ -28,12 +52,13 @@
     <div id="inventory"></div>
     <div id="battle">
       <div id="enemy">
-        <img src="./images/enemies/board4.jpg" />
-        <div class="name">실험체: 안전수칙</div>
+        <img />
+        <div class="name">적</div>
         <div class="stats">
-          <span class="atk">1</span>
-          <span class="hp">7</span>
+          <span class="atk">0</span>
+          <span class="hp">0</span>
         </div>
+        <div class="skills"></div>
       </div>
       <div id="me">
         <div class="stats">
@@ -41,16 +66,16 @@
           <button class="attack">일반 공격</button>
           <span class="hp">5</span>
         </div>
-        <div id="skills">
-          <button class="skill smite">강타</button>
-          <button class="skill batter">연타</button>
-          <button class="skill improve">증강</button>
+        <div class="skills">
+          <button class="skill smite">스킬: 강타</button>
+          <button class="skill batter">스킬: 연타</button>
+          <button class="skill improve">스킬: 증강</button>
         </div>
       </div>
     </div>
     <div id="foreground"></div>
     <div id="background">
-      <span style="background-color: white">
+      <span style="background-color: white; display: none">
         뒷문 열린거 보이진 않지만 열린거임 <br />
         나중에 찍을거임 <br />
       </span>
