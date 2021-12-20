@@ -184,13 +184,13 @@ const popups = {
   r_sink1: {
     type: "battle",
     name: "실험코드: DRYSINK",
-    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> *경고* 이 적은 강합니다.",
+    desc: "언제라도 당신을 공격할 준비가 되어 있습니다.",
     img: "./images/mainroom/right/sink1.jpg",
   },
   r_sink2: {
     type: "battle",
     name: "실험코드: WETSINK",
-    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> 물을 흘리고 있습니다. <br /> *경고* 이 적은 강합니다.",
+    desc: "언제라도 당신을 공격할 준비가 되어 있습니다. <br /> 물을 흘리고 있습니다.",
     img: "./images/mainroom/right/sink2_water.jpg",
   },
   r_board: {
@@ -509,8 +509,10 @@ let popupnow = undefined;
 
 let idlebgm = new Audio("./sounds/idle.mp3");
 let battlebgm = new Audio("./sounds/battle.mp3");
+let bossbgm = new Audio("./sounds/boss.mp3");
 idlebgm.loop = true;
 battlebgm.loop = true;
+bossbgm.loop = true;
 
 const makeObject = (o) => `<div
   class="obj"
@@ -639,7 +641,7 @@ const battle = (enemy) => {
     $("body").fadeOut(2000, () => {
       idlebgm.pause();
       battlebgm.pause();
-      new Audio("./sounds/boss.mp3").play();
+      bossbgm.play();
       $("body").fadeIn(2000);
     });
   } else {
@@ -682,14 +684,15 @@ const battle = (enemy) => {
 
 const reloadStats = () => {
   if (!fighting) return;
-  $("#enemy .atk").text(enemynow.atk);
-  $("#enemy .hp").text(enemynow.hp);
+  $("#enemy .atk").text(enemynow.atk + enemynow.atkplus);
+  $("#enemy .hp").text(enemynow.hp + enemynow.hpplus);
   $("#me .atk").text(menow.atk + menow.atkplus);
   $("#me .hp").text(menow.hp + menow.hpplus);
 
   // TODO: 패배로직
   if (menow.hp + menow.hpplus <= 0) {
     $("#lose").fadeIn(2000);
+    fighting = false;
   } else if (enemynow.hp + enemynow.hpplus <= 0) {
     if (enemynow.life != undefined) {
       if (--enemynow.life !== 0) {
@@ -700,12 +703,16 @@ const reloadStats = () => {
         return;
       }
     }
+    fighting = false;
     $("#battle").fadeOut(2000, () => {
       battlebgm.load();
       idlebgm.play();
       fighting = false;
       switch (enemynow.id) {
         case "boss":
+          idlebgm.pause();
+          battlebgm.pause();
+          bossbgm.pause();
           new Audio("./sounds/clear.mp3").play();
           $("#clear").fadeIn(2000);
           break;
@@ -718,19 +725,14 @@ const reloadStats = () => {
     });
   }
 };
-const attack = (who, bias, count = 1) => {
+const attack = (who, damage, count = 1) => {
   let atked = 0;
-  let damage;
   if (who === "me") {
-    damage = enemynow.atk + enemynow.atkplus + bias;
-    console.log(enemynow.atk, enemynow.atkplus, bias);
-    console.log(damage);
     if (enemynow.accel) {
       damage *= 3;
       enemynow.accel = false;
     }
   } else {
-    damage = menow.atk + menow.atkplus + bias;
     if (menow.accel) {
       damage *= 3;
       menow.accel = false;
@@ -738,10 +740,10 @@ const attack = (who, bias, count = 1) => {
   }
   var atkid = setInterval(() => {
     if (who === "enemy") {
-      enemynow.hp -= damage;
+      enemynow.hpplus -= damage;
       if (damage > 0) $("#enemy .hp").css("color", "red");
     } else {
-      menow.hp -= damage;
+      menow.hpplus -= damage;
       if (damage > 0) $("#me .hp").css("color", "red");
     }
     reloadStats();
@@ -780,7 +782,7 @@ const enemyAction = () => {
     console.log("enemy", action);
     switch (action) {
       case "attack":
-        attack("me", 0);
+        attack("me", enemynow.atk + enemynow.atkplus);
         break;
       case "accel":
         popup("accel");
@@ -801,10 +803,11 @@ const enemyAction = () => {
         break;
       case "spray":
         popup("spray");
-        for (let i = 0; i < menow.atk; i++) {
-          if (Math.random() < 0.5) attack("enemy", 0);
-          else attack("me", 0);
-        }
+        var atkid = setInterval(() => {
+          if (Math.random() < 0.5) attack("me", 1);
+          else attack("enemy", 1);
+          if (++atkid === enemynow.atk) clearInterval(atkid);
+        }, 100);
         $(".skill.spray").css("background", "gray");
         break;
       case "second":
@@ -985,17 +988,17 @@ $(document).ready(() => {
     const action = $(this).attr("class").split(" ");
     console.log("me", action);
     if (action[0] === "attack") {
-      attack("enemy", 0);
+      attack("enemy", menow.atk + menow.atkplus);
     }
     if (action[0] === "skill") {
       if (action.includes("used")) return;
       $(this).addClass("used");
       switch (action[1]) {
         case "smite":
-          attack("enemy", menow.atk + menow.atkplus);
+          attack("enemy", 2 * (menow.atk + menow.atkplus));
           break;
         case "batter":
-          attack("enemy", -1, 3);
+          attack("enemy", menow.atk + menow.atkplus - 1, 3);
           break;
         case "improve":
           buff("me", 1, 1);
@@ -1004,10 +1007,11 @@ $(document).ready(() => {
           menow.accel = true;
           break;
         case "spray":
-          for (let i = 0; i < menow.atk; i++) {
-            if (Math.random() < 0.5) attack("enemy", 0);
-            else attack("me", 0);
-          }
+          var atkid = setInterval(() => {
+            if (Math.random() < 0.5) attack("me", 1);
+            else attack("enemy", 1);
+            if (++atkid === enemynow.atk) clearInterval(atkid);
+          }, 100);
           break;
         case "corruption":
           enemynow.corruption++;
