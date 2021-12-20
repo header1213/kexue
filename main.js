@@ -279,6 +279,123 @@ const popups = {
     desc: "사용하면 체력을 회복할 수 있습니다.",
     img: "./images/items/linger.jpg",
   },
+  //TODO:
+  battle_info: {
+    type: "message",
+    name: "전투 개요",
+    desc: "전투는 나 한 턴, 상대 한 턴을 번갈아가며 진행합니다. <br /> <br /> \
+    한 턴에는 일반 공격, 스킬 사용, 아이템 사용 중 하나만을 할 수 있습니다. <br /> <br /> \
+    스킬들을 적절히 조합하여 적을 처치하고 승리하세요! <br /> <br /> \
+    처치 보상으로 스킬을 받을 경우 자신의 스킬 하나를 포기해야 합니다.",
+  },
+  win_boss: {},
+  win_gigu: {
+    type: "confirm",
+    name: "승리!",
+    desc: "실험체: 실험기구에게 승리했습니다. <br /> 보상으로 스킬 '진공관'을 받으시겠습니까?",
+    img: "./images/enemies/board1.jpg",
+  },
+  win_tamgu: {
+    type: "confirm",
+    name: "승리!",
+    desc: "실험체: 탐구활동에게 승리했습니다. <br /> 보상으로 패시브 스킬 '몰입'을 받으시겠습니까?",
+  },
+  win_pyesu: {
+    type: "confirm",
+    name: "승리!",
+    desc: "실험체: 실험폐수에게 승리했습니다. <br /> 보상으로 스킬 '분사'를 받으시겠습니까?",
+  },
+  win_suchik: {
+    type: "confirm",
+    name: "승리!",
+    desc: "실험체: 안전수칙에게 승리했습니다. <br /> 보상으로 패시브 스킬 '첫째는 안전'을 받으시겠습니까?",
+  },
+  win_reuse: {
+    type: "confirm",
+    name: "승리!",
+    desc: "실험체: 재활용에게 승리했습니다. <br /> 보상으로 스킬 '부패'를 받으시겠습니까?",
+  },
+  win_drysink: {
+    type: "message",
+    name: "승리!",
+    desc: "실험코드: DRYSINK에게 승리했습니다. <br /> 보상으로 스탯 1/2를 받았습니다.",
+  },
+  win_wetsink: {
+    type: "message",
+    name: "승리!",
+    desc: "실험코드: WETSINK에게 승리했습니다. <br /> 보상으로 스탯 2/1을 받았습니다.",
+  },
+};
+const enemies = {
+  boss: {
+    id: "boss",
+    name: "보스",
+    atk: 5,
+    hp: 10,
+    reward: "clear",
+  },
+  l_board1: {
+    id: "gigu",
+    name: "실험체: 실험기구",
+    atk: 2,
+    hp: 7,
+    skills: ["vacuum", "accel"],
+    reward: "vacuum",
+  },
+  l_board2: {
+    id: "tamgu",
+    name: "실험체: 탐구활동",
+    atk: 3,
+    hp: 10,
+    passive: ["immersion"],
+    skills: ["explore", "activity"],
+    reward: "activity",
+  },
+  l_board3: {
+    id: "pyesu",
+    name: "실험체: 실험폐수",
+    atk: 20,
+    hp: 5,
+    passive: ["addiction"],
+    skills: ["spray"],
+    reward: "spray",
+  },
+  l_board4: {
+    id: "suchik",
+    name: "실험체: 안전수칙",
+    atk: 1,
+    hp: 12,
+    passive: ["first"],
+    skills: ["second", "third"],
+    reward: "first",
+  },
+  r_sink1: {
+    id: "drysink",
+    name: "실험코드: DRYSINK",
+    atk: 7,
+    hp: 10,
+    reward: [1, 2],
+  },
+  r_sink2: {
+    id: "wetsink",
+    name: "실험코드: WETSINK",
+    atk: 10,
+    hp: 7,
+    reward: [2, 1],
+  },
+  r_board: {
+    id: "reuse",
+    name: "실험체: 재활용",
+    atk: 1,
+    hp: 1,
+    passive: ["reuse"],
+    skills: ["corruption"],
+  },
+};
+const skills = {
+  vacuum: {
+    name: "진공관",
+  },
 };
 
 // room, direction, screen, backdoor
@@ -373,18 +490,155 @@ const move = (page, direction) => {
   return connections[page[1]][direction];
 };
 
+let fighting = undefined;
+let turn = 0;
+let menow = {
+  atk: 2,
+  atkplus: 0,
+  hp: 5,
+  hpplus: 0,
+  skills: ["smite", "batter", "improve"],
+  // TODO: 사용한 스킬 막기
+  skillused: [],
+};
+let enemynow = {
+  atk: 1,
+  hp: 7,
+};
 // TODO: battle 구현
-const battle = (enemy) => {
-  if (!enemy) {
-    $("#battle").hide();
-    return;
+const getSkill = (skillname) => {
+  $("#skills").append(`<button class="skill ${skillname}">강타</button>`).show();
+};
+const reward = (enemy) => {
+  switch (enemy) {
+    case "boss":
+      break;
+    case "gigu":
+      break;
+    case "tamgu":
+      break;
+    case "pyesu":
+      break;
+    case "suchik":
+      break;
+    case "reuse":
+      break;
+    case "drysink":
+      menow.atk += 1;
+      menow.hp += 2;
+      break;
+    case "wetsink":
+      menow.atk += 2;
+      menow.hp += 1;
+      break;
   }
-  // if (enemy == "boss") {
-  //   alert("보스배틀은 아직 구현중!");
-  // } else {
-  //   alert("배틀은 아직 구현중!");
-  // }
+};
+const battle = (enemy) => {
+  if (fighting == undefined) popup("battle_info");
+  else popup();
+  fighting = true;
+  enemynow = enemies[enemy];
+  turn = 0;
+  menow.atkplus = 0;
+  menow.hpplus = 0;
+  skillused = [];
+  $("#enemy .name").text(enemynow.name);
+  $("#enemy .atk").text(enemynow.atk).css("color", "white");
+  $("#enemy .hp").text(enemynow.hp).css("color", "white");
+  $("#me .atk")
+    .text(menow.atk + menow.atkplus)
+    .css("color", "white");
+  $("#me .hp")
+    .text(menow.hp + menow.hpplus)
+    .css("color", "white");
   $("#battle").show();
+};
+const reloadStats = () => {
+  $("#enemy .atk").text(enemynow.atk);
+  $("#enemy .hp").text(enemynow.hp);
+  $("#me .atk").text(menow.atk + menow.atkplus);
+  $("#me .hp").text(menow.hp + menow.hpplus);
+
+  // WIN
+  if (enemynow.hp <= 0) {
+    $("#battle").fadeOut(2000, () => {
+      popup("win_" + enemynow.id);
+      reward(enemynow.id);
+    });
+  }
+};
+const attack = (bias, count = 1) => {
+  let atked = 0;
+  let damage = menow.atk + menow.atkplus + bias;
+  var atkid = setInterval(() => {
+    enemynow.hp -= damage;
+    if (damage > 0) $("#enemy .hp").css("color", "red");
+    reloadStats();
+    if (++atked === count) clearInterval(atkid);
+  }, 300);
+};
+const buff = (who, atk, hp, temp = true) => {
+  colors = [undefined, undefined];
+  if (temp) {
+    if (atk > 0) colors[0] = "skyblue";
+    else if (atk < 0) colors[0] = "red";
+    if (hp > 0) colors[1] = "skyblue";
+    else if (hp < 0) colors[1] = "red";
+  }
+
+  if (who === "me") {
+    if (temp) {
+      menow.atkplus += atk;
+      menow.hpplus += hp;
+    } else {
+      menow.atk += atk;
+      menow.hp += hp;
+    }
+    if (colors[0]) $("#me .atk").css("color", colors[0]);
+    if (colors[1]) $("#me .hp").css("color", colors[1]);
+  } else if (who === "enemy") {
+    enemynow.atk += atk;
+    enemynow.hp += hp;
+  }
+  reloadStats();
+};
+const myAction = (action) => {
+  if (action[0] === "attack") {
+    attack(0);
+  }
+  if (action[0] === "skill") {
+    switch (action[1]) {
+      case "smite":
+        attack((menow.atk + menow.atkplus) * (1 + Math.floor(Math.random() * 2))); // 2~3배
+        break;
+      case "batter":
+        attack(-1, 3);
+        break;
+      case "improve":
+        buff("me", 1, 1);
+        break;
+      // TODO: 스킬 구현
+      case "vacuum":
+      case "accel":
+      case "explore":
+      case "activity":
+      case "spray":
+      case "second":
+      case "third":
+      case "corruption":
+        break;
+    }
+  }
+};
+const enemyAction = () => {
+  $("#battle button").css({ background: "gray", cursor: "default" });
+  setTimeout(() => {
+    //TODO: action
+
+    setTimeout(() => {
+      $("#battle button").css({ background: "white", cursor: "pointer" });
+    }, 1000);
+  }, 1000);
 };
 
 const parseTime = (sec) => {
@@ -411,7 +665,7 @@ const startTimer = (time) => {
   }, 1000);
 };
 
-// TODO: getItem 구현
+// TODO: 아이템 구현
 let items = [];
 const getItem = (itemname, get = true) => {
   if (get) {
@@ -451,46 +705,74 @@ $(document).ready(() => {
   });
 
   $(document).on("click", ".yes", () => {
-    if (popupnow === "f_button_up") {
-      pagenow[2] = true;
-      popup("f_button_down");
-      changePage(pagenow);
-    } else if (popupnow === "l_door1" || popupnow === "l_door2") {
-      popup("l_door_magic");
-    } else if (popupnow === "b_door_close") {
-      if (items.includes("key")) {
-        getItem("key", false);
-        pagenow[3] = true;
-        popup("b_door_open");
+    switch (popupnow) {
+      case "f_button_up":
+        pagenow[2] = true;
+        popup("f_button_down");
         changePage(pagenow);
-      } else popup("b_door_lock");
-    } else if (["backroom", "mainroom"].includes(popupnow)) {
-      pagenow[0] = popupnow;
-      pagenow[1] = "front";
-      changePage(pagenow);
-      popup();
-    } else if (popupnow === "br_linger") {
-      getItem("linger");
-      clear(popupnow);
-      popup("get_linger");
-    } else if (popupnow === "br_books") {
-      stopTimer();
-      popup("timepass");
-      battle("boss");
-    } else if (popupnow === "br_cabinet") {
-      getItem("dangerous_liquid");
-      clear(popupnow);
-      popup("get_dangerous_liquid");
-    } else if (popupnow === "br_liquid") {
-      getItem("liquid");
-      clear(popupnow);
-      popup("get_liquid");
+        break;
+      case "l_door1":
+      case "l_door2":
+        popup("l_door_magic");
+        break;
+      case "b_door_close":
+        if (items.includes("key")) {
+          getItem("key", false);
+          pagenow[3] = true;
+          popup("b_door_open");
+          changePage(pagenow);
+        } else popup("b_door_lock");
+        break;
+      case "backroom":
+      case "mainroom":
+        pagenow[0] = popupnow;
+        pagenow[1] = "front";
+        changePage(pagenow);
+        popup();
+        break;
+      case "br_linger":
+        getItem("linger");
+        clear(popupnow);
+        popup("get_linger");
+        break;
+      case "br_books":
+        stopTimer();
+        popup("timepass");
+        battle("boss");
+        break;
+      case "br_cabinet":
+        getItem("dangerous_liquid");
+        clear(popupnow);
+        popup("get_dangerous_liquid");
+        break;
+      case "br_liquid":
+        getItem("liquid");
+        clear(popupnow);
+        popup("get_liquid");
+        break;
+      // TODO: 보상 수락
+      case "win_boss":
+        break;
+      case "win_gigu":
+        getSkill("vacuum");
+        break;
+      case "win_tamgu":
+        getSkill("immersion");
+        break;
+      case "win_pyesu":
+        getSkill("spray");
+        break;
+      case "win_suchik":
+        getSkill("first");
+        break;
+      case "win_reuse":
+        getSkill("corruption");
+        break;
     }
   });
   $(document).on("click", ".battle", () => {
     clear(popupnow);
     battle(popupnow);
-    popup();
   });
   $(document).on("click", ".submit", () => {
     if (popupnow === "f_whiteboard") {
@@ -517,6 +799,11 @@ $(document).ready(() => {
     if (["key", "dangerous_liquid", "liquid", "linger"].includes(itemname)) {
       popup("use_" + itemname);
     }
+  });
+
+  $(document).on("click", ".attack, .skill", function () {
+    const action = $(this).attr("class").split(" ");
+    myAction(action);
   });
 
   // preLoad (cache)
@@ -592,11 +879,9 @@ $(document).ready(() => {
           .text("시작!")
           .click(() => {
             popup();
-            battle();
+            $("#battle").hide();
             $("#loading").hide();
             startTimer(5 * 60);
-            // TODO: battle 지우기
-            battle("boss");
           });
       }
     };

@@ -11,19 +11,20 @@
   <body ondragstart="return false;" onselectstart="return false;">
     <div id="loading">
       <div class="popup">
-        <h1>부정한 생명이 잉태하는 곳</h1>
+        <h1>디스토피아 랩</h1>
         <span>
-          우리의 모험의 출발점이기도 한 이곳은 <br />
+          이곳은 한때 연구자라면 누구나 원하던 꿈의 실험실이었으나, <br />
           <br />
-          한때 연구자라면 누구나 원하던 꿈의 실험실이었으나, <br />
+          린선 일족의 정벌 전쟁에서 침략당하고 인체 실험이 행해지면서 <br />
           <br />
-          린선 일족의 침략 이후 인체 실험의 대상지가 되었고 <br />
+          이내 누구도 원하지 않는 지상 최악의 공간이 되었습니다. <br />
           <br />
-          이내 위험하고 불안정한 곳으로 바뀌어 버렸습니다.
+          당신은 황금의 문자 <big style="color: gold; font-weight: bold; text-shadow: 0px 0px 3px black">T</big>를 찾기 위해 이곳에 도달합니다.
         </span>
         <button id="start">로딩 중...</button>
       </div>
     </div>
+    <div id="timer">5:00</div>
     <div id="inventory"></div>
     <div id="battle">
       <div id="enemy">
@@ -35,17 +36,20 @@
         </div>
       </div>
       <div id="me">
-        <button id="attack">일반 공격</button>
-        <div id="skill">
-          <button id="smite">강타</button>
-          <button id="batter">연타</button>
-          <button id="improve">증강</button>
+        <div class="stats">
+          <span class="atk">2</span>
+          <button class="attack">일반 공격</button>
+          <span class="hp">5</span>
+        </div>
+        <div id="skills">
+          <button class="skill smite">강타</button>
+          <button class="skill batter">연타</button>
+          <button class="skill improve">증강</button>
         </div>
       </div>
     </div>
     <div id="foreground"></div>
     <div id="background">
-      <div id="timer">5:00</div>
       <span style="background-color: white">
         뒷문 열린거 보이진 않지만 열린거임 <br />
         나중에 찍을거임 <br />
