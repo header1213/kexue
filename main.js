@@ -1038,7 +1038,6 @@ $(document).ready(() => {
     }
   });
 
-  // TODO: 아이템 구현
   $(document).on("click", "#inventory > img", function () {
     const itemname = $(this).attr("id");
     console.log("use item:" + itemname);
@@ -1110,7 +1109,6 @@ const start = () => {
       $("#lose").hide();
       $("#loading").remove();
       startTimer(5 * 60);
-      battle("boss");
     });
 };
 const _region_audio = [
@@ -1196,7 +1194,7 @@ const _region_image = [
   const img = new Image();
   img.src = src;
   img.onload = () => {
-    // $("<img />").attr("src", src).appendTo("body");
+    $("<img />").attr("src", src).appendTo("body");
     if (src === "./images/arrow.png") {
       start();
     }
