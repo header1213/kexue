@@ -772,7 +772,7 @@ const attack = (who, damage, count = 1) => {
       menow.accel = false;
     }
     damage -= enemynow.def;
-    damage = max(0, damage);
+    damage = Math.max(0, damage);
   }
   var atkid = setInterval(() => {
     if (who === "enemy") {
