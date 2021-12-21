@@ -14,7 +14,8 @@ body > img {
   display: none;
 }
 
-#clear {
+#clear .popup,
+#lose .popup {
   z-index: 50;
 }
 
