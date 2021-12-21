@@ -339,13 +339,19 @@ const popups = {
     desc: "실험코드: WETSINK에게 승리했습니다. <br /> 보상으로 스탯 2/1을 받았습니다.",
     img: "./images/enemies/wetsink.jpg",
   },
+  wait: {
+    type: "message",
+    name: "음...",
+    desc: "왠지 전투 중에 쓰고 싶습니다.",
+  },
 };
 const enemies = {
   boss: {
     id: "boss",
     name: "린선 일족 연구자",
-    atk: 5,
-    hp: 20,
+    atk: 0,
+    hp: 15,
+    def: 2,
     skills: ["gown", "base", "acid"],
   },
   l_board1: {
@@ -461,12 +467,12 @@ const skills = {
   base: {
     type: "skill",
     name: "강염기",
-    tooltip: "자신의 체력을 공격력과 같게 만듭니다.",
+    tooltip: "상대의 체력을 공격력과 같게 만듭니다. '강산'을 활성화합니다.",
   },
   acid: {
     type: "skill",
     name: "강산",
-    tooltip: "상대의 체력을 공격력과 같게 만듭니다.",
+    tooltip: "상대의 공격력을 1 낮춥니다. '강염기'를 활성화합니다.",
   },
 
   vacuum: {
@@ -659,7 +665,7 @@ const changeSkill = (skillbefore, skillname) => {
   console.log(menow.skills);
 };
 const battle = (enemy) => {
-  if (enemy == "boss") {
+  if (enemy === "boss") {
     $("body").fadeOut(2000, () => {
       idlebgm.pause();
       battlebgm.pause();
@@ -748,9 +754,9 @@ const reloadStats = (check = true) => {
       }
     });
   }
-  console.log("my hp: " + (menow.hp + menow.hpplus));
-  console.log("enemy hp: " + (enemynow.hp + enemynow.hpplus));
-  console.log("fighting:", fighting);
+  // console.log("my hp: " + (menow.hp + menow.hpplus));
+  // console.log("enemy hp: " + (enemynow.hp + enemynow.hpplus));
+  // console.log("fighting:", fighting);
 };
 const attack = (who, damage, count = 1) => {
   let atked = 0;
@@ -766,6 +772,7 @@ const attack = (who, damage, count = 1) => {
       menow.accel = false;
     }
     damage -= enemynow.def;
+    damage = max(0, damage);
   }
   var atkid = setInterval(() => {
     if (who === "enemy") {
@@ -805,6 +812,28 @@ const buff = (who, atk, hp, temp = true) => {
   reloadStats(false);
 };
 const enemyAction = () => {
+  if (enemynow.id === "boss") {
+    new Audio("./sounds/bossskill.mp3").play();
+    console.log(turn, Math.floor(turn / 2) % 2);
+    if (Math.floor(turn / 2) % 2 == 0) {
+      console.log("강염기");
+      buff("me", 0, menow.atk + menow.atkplus - menow.hp - menow.hpplus);
+      reloadStats();
+      $("#me .hp").css("color", "red");
+      $(".base").css("background", "gray");
+      $(".acid").css("background", "white");
+    } else {
+      console.log("강산");
+      buff("me", -1, 0);
+      reloadStats();
+      $("#me .atk").css("color", "red");
+      $(".acid").css("background", "gray");
+      $(".base").css("background", "white");
+    }
+    console.log("me", menow.atk + menow.atkplus, menow.hp + menow.hpplus);
+    turnEnd();
+    return;
+  }
   const action = enemynow.sequence[Math.floor(turn / 2)];
   console.log("enemy", action);
   new Audio(`./sounds/${action}.mp3`).play();
@@ -973,6 +1002,7 @@ $(document).ready(() => {
         break;
       case "use_liquid":
         popup("used_liquid");
+        $("#liquid").remove();
         menow.atkplus = 0;
         menow.hpplus = 0;
         menow["corruption"] = 0;
@@ -980,6 +1010,7 @@ $(document).ready(() => {
         break;
       case "use_linger":
         popup("used_linger");
+        $("#linger").remove();
         buff("me", 0, 5, false);
         break;
     }
@@ -1011,6 +1042,8 @@ $(document).ready(() => {
   $(document).on("click", "#inventory > img", function () {
     const itemname = $(this).attr("id");
     console.log("use item:" + itemname);
+    if (itemname === "liquid" && !fighting) popup("wait");
+
     popup("use_" + itemname);
   });
 
@@ -1077,6 +1110,7 @@ const start = () => {
       $("#lose").hide();
       $("#loading").remove();
       startTimer(5 * 60);
+      battle("boss");
     });
 };
 const _region_audio = [
