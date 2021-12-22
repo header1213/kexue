@@ -306,12 +306,12 @@ const skill = (who, skillname) => {
     case "explore":
       now(who).dkeep += 10;
       now(who).hkeep += 15;
-      if (now(who).skills.includes("immersion")) buff(who, -12, 20);
+      if (now(who).skills.includes("immersion")) buff(who, -15, 20);
       break;
     case "activity":
       deal(not(who), now(who).atk);
       buff(who, 0, now(who).atk);
-      if (now(who).skills.includes("immersion")) buff(who, 15, -13);
+      if (now(who).skills.includes("immersion")) buff(who, 15, -15);
       break;
     case "cost":
       deal(who, Math.floor(now(who).hp / 2));

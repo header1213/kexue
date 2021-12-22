@@ -315,7 +315,7 @@ const enemies = {
     id: "boss",
     name: "린선 일족 연구자",
     baseatk: 0,
-    basehp: 100,
+    basehp: 60,
     skills: ["immortalism", "acid", "base"],
     reward: ["clear", "clear"],
   },
@@ -363,16 +363,16 @@ const enemies = {
   drysink: {
     id: "drysink",
     name: "실험코드: DRYSINK",
-    baseatk: 20,
-    basehp: 25,
+    baseatk: 19,
+    basehp: 20,
     skills: [],
     reward: ["stats", [4, 6]],
   },
   wetsink: {
     id: "wetsink",
     name: "실험코드: WETSINK",
-    baseatk: 25,
-    basehp: 20,
+    baseatk: 20,
+    basehp: 19,
     skills: [],
     reward: ["stats", [6, 4]],
   },
@@ -457,7 +457,7 @@ const skills = {
   immersion: {
     type: "passive",
     name: "몰입",
-    tooltip: "'탐구'를 사용하면 -12/+20을 얻습니다. '활동'을 사용하면 +15/-13을 얻습니다.",
+    tooltip: "'탐구'를 사용하면 -15/+20을 얻습니다. '활동'을 사용하면 +15/-15를 얻습니다.",
   },
   accel: {
     type: "passive",
