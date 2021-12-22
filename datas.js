@@ -221,7 +221,7 @@ const popups = {
   used_dangerous_liquid: {
     type: "message",
     name: "위험 약품",
-    desc: "위험 약품을 마셨습니다. <br /> 속은 안 좋은데... 힘이 좀 세진 것 같네요. <br /><br /> <b>공격력 +1 / 체력 -2</b>",
+    desc: "위험 약품을 마셨습니다. <br /> 속은 안 좋은데... 힘이 좀 세진 것 같네요. <br /><br /> <b>스탯 +3/-6 획득</b>",
   },
   basic_liquid: {
     type: "confirm",
@@ -357,13 +357,13 @@ const enemies = {
     baseatk: 1,
     basehp: 1,
     life: 2,
-    skills: ["separate", "reuse"],
+    skills: ["upcycling", "reuse"],
     reward: ["passive", "reuse"],
   },
   drysink: {
     id: "drysink",
     name: "실험코드: DRYSINK",
-    baseatk: 15,
+    baseatk: 20,
     basehp: 25,
     skills: [],
     reward: ["stats", [4, 6]],
@@ -372,7 +372,7 @@ const enemies = {
     id: "wetsink",
     name: "실험코드: WETSINK",
     baseatk: 25,
-    basehp: 15,
+    basehp: 20,
     skills: [],
     reward: ["stats", [6, 4]],
   },
@@ -452,12 +452,12 @@ const skills = {
   drinking: {
     type: "passive",
     name: "드링킹",
-    tooltip: "매 턴 공격력 또는 방어력 중 하나를 반으로 줄이고 다른 하나는 2배로 늘립니다.",
+    tooltip: "매 턴 공격력 또는 방어력 중 하나를 반으로 줄이고 다른 하나는 2배로 늘립니다. (최대 500)",
   },
   immersion: {
     type: "passive",
     name: "몰입",
-    tooltip: "'탐구'를 사용하면 -15/+20을 얻습니다. '활동'을 사용하면 +15/-15를 얻습니다.",
+    tooltip: "'탐구'를 사용하면 -12/+20을 얻습니다. '활동'을 사용하면 +15/-13을 얻습니다.",
   },
   accel: {
     type: "passive",
@@ -469,10 +469,10 @@ const skills = {
     name: "불살주의",
     tooltip: "공격할 수 없습니다. 5턴 동안 공격 기술을 사용할 수 없습니다.",
   },
-  separate: {
+  upcycling: {
     type: "passive",
-    name: "번거로운 분리배출",
-    tooltip: "한 번 부활합니다.",
+    name: "업사이클링",
+    tooltip: "15의 체력으로 부활합니다.",
   },
   reuse: {
     type: "passive",

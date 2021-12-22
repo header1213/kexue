@@ -197,7 +197,7 @@ const checkDeath = () => {
     });
   } else if (enemynow.hp <= 0) {
     if ("life" in enemynow && --enemynow.life > 0) {
-      setStats("enemy", enemynow.atk, enemynow.basehp);
+      setStats("enemy", enemynow.atk, 15);
       $("#enemy .hp").css("color", "gold");
       return;
     }
@@ -256,11 +256,11 @@ const buff = (who, atk, hp, temp = true) => {
   }
 
   if (!temp) {
-    now(who).baseatk += atk;
-    now(who).basehp += hp;
+    now(who).baseatk = Math.max(now(who).baseatk + atk, 0);
+    now(who).basehp = Math.max(now(who).basehp + hp, 0);
   }
-  now(who).atk += atk;
-  now(who).hp += hp;
+  now(who).atk = Math.max(now(who).atk + atk, 0);
+  now(who).hp = Math.max(now(who).hp + hp, 0);
 
   if (now(who).atk > now(who).baseatk) $(`#${who} .atk`).css("color", "skyblue");
   else if (now(who).atk < now(who).baseatk) $(`#${who} .atk`).css("color", "red");
@@ -305,12 +305,12 @@ const skill = (who, skillname) => {
     case "explore":
       now(who).dkeep += 10;
       now(who).hkeep += 15;
-      if (now(who).skills.includes("immersion")) buff(who, -15, 20);
+      if (now(who).skills.includes("immersion")) buff(who, -12, 20);
       break;
     case "activity":
       deal(not(who), now(who).atk);
       buff(who, 0, now(who).atk);
-      if (now(who).skills.includes("immersion")) buff(who, 15, -15);
+      if (now(who).skills.includes("immersion")) buff(who, 15, -13);
       break;
     case "cost":
       deal(who, Math.floor(now(who).hp / 2));
@@ -320,12 +320,12 @@ const skill = (who, skillname) => {
       deal(not(who), 15);
       break;
     case "acid":
-      let sum = not(who).atk + now(who).hp;
+      let sum = now(not(who)).atk + now(not(who)).hp;
       let atk = Math.floor(sum * Math.random());
       setStats(not(who), atk, sum - atk);
       break;
     case "base":
-      let matk = Math.min(15, now(who).atk);
+      let matk = Math.min(15, now(not(who)).atk);
       buff(not(who), -matk, -15 + matk);
       break;
   }
@@ -346,6 +346,9 @@ function turnEnd(who) {
     if (now(who).skills.includes("drinking")) {
       if (Math.random() < 0.5) buff(who, now(who).atk, -Math.floor(now(who).hp / 2));
       else buff(who, -Math.floor(now(who).atk / 2), now(who).hp);
+      if (now(who).atk > 500) now(who).atk = 500;
+      if (now(who).hp > 500) now(who).hp = 500;
+      reloadStats();
     }
     if (now(who).skills.includes("accel")) {
       buff(who, now(who).atk, -5);
@@ -532,7 +535,7 @@ $(document).on("click", ".yes", () => {
     case "use_dangerous_liquid":
       popup("used_dangerous_liquid");
       $("#dangerous_liquid").remove();
-      buff("me", 1, -2, false);
+      buff("me", 3, -6, false);
       break;
     case "use_liquid":
       popup("used_liquid");
@@ -600,6 +603,7 @@ const start = () => {
       $("#lose").hide();
       $("#loading").remove();
       startTimer(5 * 60);
+      battle("boss");
     });
 };
 // preLoad
