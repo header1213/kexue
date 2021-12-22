@@ -227,13 +227,13 @@ const popups = {
     type: "confirm",
     name: "기본 시약",
     desc: "가장 기본적인 시약들입니다. <br /> 조금 마셔 볼.. 아니, 챙겨 볼까요?",
-    img: "./images/backroom/left/liquid.jpg",
+    img: "./images/backroom/left/basic_liquid.jpg",
   },
   get_basic_liquid: {
     type: "message",
     name: "기본 시약",
     desc: "증류수를 조금 챙겼습니다.",
-    img: "./images/backroom/left/liquid.jpg",
+    img: "./images/backroom/left/basic_liquid.jpg",
   },
   wait: {
     type: "message",
@@ -242,14 +242,14 @@ const popups = {
   },
   use_basic_liquid: {
     type: "confirm",
-    name: "기본 시약",
-    desc: "시약을 마실 수도 있고, 뿌릴 수도 있습니다. <br /> 어떤 행동을 할지는 저도 잘 모르겠네요. <br /> 아무튼 사용하시겠어요?",
-    img: "./images/items/liquid.jpg",
+    name: "증류수",
+    desc: "증류수를 마실 수도 있고, 뿌릴 수도 있습니다. <br /> 어떤 행동을 할지는 저도 잘 모르겠네요. <br /> 아무튼 사용하시겠어요?",
+    img: "./images/items/basic_liquid.jpg",
   },
   used_basic_liquid: {
     type: "message",
     name: "증류수",
-    desc: "증류수를 몸에 펴발랐습니다. <br /> 모든 피로와... 뭐더라? 아무튼 모든 것이 싹 씻겨지는 느낌입니다. <br /><br /> <b>캐릭터 상태 초기화</b>",
+    desc: "증류수를 몸에 펴발랐습니다. <br /> 모든 피로와... 뭐더라? <br /> 아무튼 모든 것이 싹 씻겨지는 느낌입니다. <br /><br /> <b>캐릭터 상태 초기화</b>",
   },
   books: {
     type: "confirm",
@@ -315,7 +315,7 @@ const enemies = {
     id: "boss",
     name: "린선 일족 연구자",
     baseatk: 0,
-    basehp: 100,
+    basehp: 1,
     skills: ["immortalism", "acid", "base"],
     reward: ["clear", "clear"],
   },

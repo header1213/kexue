@@ -279,6 +279,7 @@ const skill = (who, skillname) => {
   console.log(who, skillname);
   $(`#${who} .${skillname}`).addClass("used");
   // TODO:new Audio(`./sounds/${skillname}.mp3`).play();
+  new Audio(`./sounds/smite.mp3`).play();
   switch (skillname) {
     case "hard":
       buff(who, -4, 6);
@@ -363,7 +364,6 @@ function turnEnd(who) {
     if (turn % 2 === 1) enemyAction();
   }, 1000);
 }
-//TODO: enemyaction
 function enemyAction() {
   setTimeout(() => {
     if (turn % 2 === 0) return;
@@ -405,7 +405,6 @@ $(document).on("click", ".attack, #me .skill", function () {
   if (action.includes("used")) return;
   $(this).addClass("used");
   if (action[0] === "attack") {
-    new Audio(`./sounds/attack.mp3`).play();
     deal("enemy", menow.atk);
     if (menow.skills.includes("charge")) {
       $(".used").removeClass("used");
@@ -422,7 +421,7 @@ const battle = (enemy) => {
   sequence = [];
 
   if (fighting === undefined && popupnow !== "timepass") popup("battle_info");
-  else popup();
+  else if (popupnow !== "timepass") popup();
 
   if (enemy === "boss") {
     $("body").fadeOut(2000, () => {
@@ -537,8 +536,8 @@ $(document).on("click", ".yes", () => {
       $("#dangerous_liquid").remove();
       buff("me", 3, -6, false);
       break;
-    case "use_liquid":
-      popup("used_liquid");
+    case "use_basic_liquid":
+      popup("used_basic_liquid");
       $("#liquid").remove();
       menow.atkplus = 0;
       menow.hpplus = 0;
@@ -603,30 +602,10 @@ const start = () => {
       $("#lose").hide();
       $("#loading").remove();
       startTimer(5 * 60);
-      battle("boss");
     });
 };
 // preLoad
-const _region_audio = [
-  "./sounds/accel.mp3",
-  "./sounds/activity.mp3",
-  "./sounds/attack.mp3",
-  "./sounds/batter.mp3",
-  "./sounds/battle.mp3",
-  "./sounds/boss.mp3",
-  "./sounds/clear.mp3",
-  "./sounds/corruption.mp3",
-  "./sounds/explore.mp3",
-  "./sounds/first.mp3",
-  "./sounds/idle.mp3",
-  "./sounds/improve.mp3",
-  "./sounds/reuse.mp3",
-  "./sounds/second.mp3",
-  "./sounds/smite.mp3",
-  "./sounds/spray.mp3",
-].forEach((src) => {
-  const audio = new Audio(src);
-});
+
 const _region_image = [
   // front
   "./images/mainroom/front/main.jpg",
