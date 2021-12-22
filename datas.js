@@ -315,7 +315,7 @@ const enemies = {
     id: "boss",
     name: "린선 일족 연구자",
     baseatk: 0,
-    basehp: 1,
+    basehp: 100,
     skills: ["immortalism", "acid", "base"],
     reward: ["clear", "clear"],
   },
