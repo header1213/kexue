@@ -166,8 +166,6 @@ let sequence = [];
 
 const changeSkill = (skillbefore, skillafter) => {
   if (skillbefore) menow.skills[menow.skills.findIndex((e) => e === skillbefore)] = skillafter;
-  console.log(`skill changed: ${skillbefore}->${skillafter}`);
-  console.log(menow.skills);
 };
 const initStats = (who) => {
   if (who === "me") {
@@ -199,7 +197,6 @@ const checkDeath = () => {
     });
   } else if (enemynow.hp <= 0) {
     if ("life" in enemynow && --enemynow.life > 0) {
-      console.log(enemynow.life);
       setStats("enemy", enemynow.atk, enemynow.basehp);
       $("#enemy .hp").css("color", "gold");
       return;
@@ -214,7 +211,9 @@ const checkDeath = () => {
           battlebgm.pause();
           bossbgm.pause();
           new Audio("./sounds/clear.mp3").play();
-          $("#clear").fadeIn(2000);
+          $("body>*:not(#clear)").fadeOut(2000, () => {
+            $("#clear").fadeIn(2000);
+          });
           break;
         case "drysink":
         case "wetsink":
@@ -231,6 +230,7 @@ const setStats = (who, atk, hp) => {
   reloadStats();
 };
 const deal = (who, damage) => {
+  console.log(who, damage);
   damage += now(who).dkeep;
   now(who).dkeep = 0;
   damage = Math.max(0, damage);
@@ -276,7 +276,7 @@ const now = (who) => {
   return { me: menow, enemy: enemynow }[who];
 };
 const skill = (who, skillname) => {
-  console.log(turn, who, skillname);
+  console.log(who, skillname);
   $(`#${who} .${skillname}`).addClass("used");
   // TODO:new Audio(`./sounds/${skillname}.mp3`).play();
   switch (skillname) {
@@ -294,7 +294,6 @@ const skill = (who, skillname) => {
     case "close":
       let damage = now(who).atk * 2;
       if (damage >= now(not(who)).hp) damage = now(not(who)).hp - 1;
-      console.log(who, now(who).atk, now(not(who)).hp, damage);
       deal(not(who), damage);
       $(`#${who} .${skillname}.used`).removeClass("used").css("background", "lightgray");
       break;
@@ -306,10 +305,12 @@ const skill = (who, skillname) => {
     case "explore":
       now(who).dkeep += 10;
       now(who).hkeep += 15;
+      if (now(who).skills.includes("immersion")) buff(who, -15, 20);
       break;
     case "activity":
       deal(not(who), now(who).atk);
       buff(who, 0, now(who).atk);
+      if (now(who).skills.includes("immersion")) buff(who, 15, -15);
       break;
     case "cost":
       deal(who, Math.floor(now(who).hp / 2));
@@ -330,15 +331,15 @@ const skill = (who, skillname) => {
   }
 };
 function turnEnd(who) {
-  console.log(turn, who, "end");
+  console.log(who, "end");
   if (who === "me") turn++;
   reloadStats();
   checkDeath();
   if (!fighting) return;
   setTimeout(() => {
-    if (turn >= 15) {
+    if (turn >= 20) {
       if ($(`#${who} .safe:not(.used)`).length) {
-        deal(not(who), 30);
+        deal(not(who), 50);
         $(".safe:not(.used)").addClass("used");
       }
     }
@@ -348,6 +349,9 @@ function turnEnd(who) {
     }
     if (now(who).skills.includes("accel")) {
       buff(who, now(who).atk, -5);
+    }
+    if (now(who).skills.includes("fire")) {
+      deal(who, 2);
     }
     reloadStats();
     checkDeath();
@@ -363,6 +367,8 @@ function enemyAction() {
     let T = Math.floor(turn / 2);
     switch (enemynow.id) {
       case "boss":
+        if (T % 2 === 0) skill("enemy", "acid");
+        else skill("enemy", "base");
         break;
       case "gigu":
         if (T === 0) skill("enemy", "cost");
@@ -380,6 +386,7 @@ function enemyAction() {
       case "suchik":
         if (T === 0) skill("enemy", "electric");
         else deal("me", enemynow.atk);
+        break;
       case "drysink":
       case "wetsink":
       case "reuse":
@@ -468,7 +475,6 @@ const setItem = (itemname, get = true) => {
 };
 $(document).on("click", "#inventory > img", function () {
   const itemname = $(this).attr("id");
-  console.log("use item:" + itemname);
   if (itemname === "basic_liquid" && !fighting) popup("wait");
 
   popup("use_" + itemname);

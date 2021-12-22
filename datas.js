@@ -51,7 +51,7 @@ const objects = {
       { name: "linger", pos: [14, 1, 23, 28] },
       { name: "dna", pos: [50, -39, 12, 21] },
     ],
-    left: [{ name: "liquid", pos: [-6, 34, 46, 22] }],
+    left: [{ name: "basic_liquid", pos: [-6, 34, 46, 22] }],
     back: [{ name: "mainroom", pos: [7, 2, 42, 94] }],
   },
 };
@@ -356,7 +356,7 @@ const enemies = {
     name: "실험체: 재활용",
     baseatk: 1,
     basehp: 1,
-    life: 3,
+    life: 2,
     skills: ["separate", "reuse"],
     reward: ["passive", "reuse"],
   },
@@ -442,7 +442,7 @@ const skills = {
   safe: {
     type: "passive",
     name: "안전한 실험",
-    tooltip: "10턴 안에 처치하지 못하면 상대에게 30의 피해를 입힙니다.",
+    tooltip: "10턴 안에 처치하지 못하면 상대에게 50의 피해를 입힙니다.",
   },
   fire: {
     type: "passive",
@@ -472,7 +472,7 @@ const skills = {
   separate: {
     type: "passive",
     name: "번거로운 분리배출",
-    tooltip: "세 번 처치해야 처치됩니다.",
+    tooltip: "한 번 부활합니다.",
   },
   reuse: {
     type: "passive",
