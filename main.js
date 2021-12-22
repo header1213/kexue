@@ -665,12 +665,16 @@ const _region_image = [
   // last
   "./images/example.jpg",
   "./images/arrow.png",
-].forEach((src) => {
+];
+const L = _region_image.length;
+let cnt = 0;
+_region_image.forEach((src) => {
   const img = new Image();
   img.src = src;
   img.onload = () => {
     $("<img />").attr("src", src).appendTo("body");
-    if (src === "./images/arrow.png") {
+    cnt++;
+    if (cnt === L) {
       start();
     }
   };
